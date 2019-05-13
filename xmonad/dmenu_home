@@ -1,0 +1,35 @@
+#!/bin/bash
+CACHE=$HOME/.dmenu_home_cache
+
+file_exists() {
+	test -f "$CACHE"
+}
+
+uptodate() {
+  test ! `find $CACHE -mmin +15`
+}
+
+generate() {
+  echo "." > "$CACHE".$$ &&
+    ionice -c 3 find $HOME -xdev -mindepth 1 \( ! -regex '.*/\..*' \) \
+        \( \( -type d -printf "%d\t%P/\n" \) -o     \
+        \( \( -type f -o -type l \) -printf "%d\t%P\n" \) \) \
+    | nice sort -g | cut -f 2- >> "$CACHE".$$ &&
+  mv "$CACHE".$$ "$CACHE"
+}
+
+if [[ $1 == "generate" ]]; then
+  generate
+  exit 0
+fi
+
+if file_exists; then
+  if ! uptodate; then
+    touch "$CACHE" #Allow only one process to update the cache
+    echo $0 generate | at -M now + 1 minutes
+  fi
+  cat "$CACHE" 
+else
+  generate
+  cat "$CACHE" 
+fi

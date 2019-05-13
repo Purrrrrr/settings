@@ -1,0 +1,9 @@
+#!/bin/bash
+
+WSNAME=$1
+WSNUM=`wmctrl -d | cut -d " " -f 1,13- | egrep "^[0-9]+ +$WSNAME$" | cut -d " " -f 1`
+
+if [[ -n $WSNUM ]]; then
+  wmctrl -s $WSNUM
+fi
+
