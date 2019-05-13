@@ -37,7 +37,7 @@ make_color_prompt
 GIT_PROMPT_START=$( echo $PS1 | sed 's/\\n\$//')
 GIT_PROMPT_END="\n\$ "
 GIT_PROMPT_ONLY_IN_REPO=1
-source ~/.bashrc_scripts/bash-git-prompt/gitprompt.sh
+source ~/.config/bash/init/bash-git-prompt/gitprompt.sh
 
 function empty_command_prompt
 {

@@ -6,7 +6,7 @@
 #[ -z "$PS1" ] && return
 
 # iterate over our bashrc script files
-for script in $HOME/.config/bash/init-scripts/*.sh
+for script in $HOME/.config/bash/init/*.sh
 do
     # check if the script is executable
     if [ -x "${script}" ]; then
@@ -18,8 +18,8 @@ done
 #Add stuff to the PATH variable
 for path in $HOME/.config/bash/paths/*
 do
-    # check if the script is executable
-    if [ -l "${script}" ]; then
+    # check if the path is a link
+    if [ -L "${path}" ]; then
         # run the script
         PATH="$PATH:$(readlink $path)"
     fi
@@ -27,4 +27,3 @@ done
 
 export EDITOR=vim
 export VISUAL=vim
-PATH="$PATH:$HOME/.local/bin"
