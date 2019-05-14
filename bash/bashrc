@@ -5,7 +5,7 @@
 # If not running interactively, don't do anything
 #[ -z "$PS1" ] && return
 
-export $BASH_CONFIG=$HOME/.config/bash
+export BASH_CONFIG=$HOME/.config/bash
 source $BASH_CONFIG/autorun.sh
 
 export EDITOR=vim

@@ -3,7 +3,7 @@ if [[ -z "${BASH_CONFIG}" ]]; then
   return
 fi
 
-export $BASH_INIT_SCRIPTS=$BASH_CONFIG/init
+export BASH_INIT_SCRIPTS=$BASH_CONFIG/init
 
 # iterate over our bashrc script files
 for script in $BASH_INIT_SCRIPTS/*.sh
