@@ -5,25 +5,8 @@
 # If not running interactively, don't do anything
 #[ -z "$PS1" ] && return
 
-# iterate over our bashrc script files
-for script in $HOME/.config/bash/init/*.sh
-do
-    # check if the script is executable
-    if [ -x "${script}" ]; then
-        # run the script
-        source ${script}
-    fi
-done
-
-#Add stuff to the PATH variable
-for path in $HOME/.config/bash/paths/*
-do
-    # check if the path is a link
-    if [ -L "${path}" ]; then
-        # run the script
-        PATH="$PATH:$(readlink $path)"
-    fi
-done
+export $BASH_CONFIG=$HOME/.config/bash
+source $BASH_CONFIG/autorun.sh
 
 export EDITOR=vim
 export VISUAL=vim
