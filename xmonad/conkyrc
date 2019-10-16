@@ -1,0 +1,44 @@
+alignment                 top_left
+background                no
+border_width              0
+cpu_avg_samples           5
+default_color             white
+default_outline_color     white
+default_shade_color       white
+default_graph_size        10 30
+draw_borders              no
+draw_graph_borders        no
+draw_outline              no
+draw_shades               no
+use_xft                   yes
+xftfont                   :size=7
+xftalpha                  1
+gap_x                     505
+gap_y                     3
+net_avg_samples           2
+no_buffers                yes
+out_to_console            no
+own_window                yes
+#own_window_type           override
+update_interval           1
+use_spacer                left
+#use_spacer                right
+double_buffer             yes
+short_units               yes
+pad_percents              1
+text_buffer_size          1024 
+temperature_unit          celsius
+minimum_size              600 20
+
+TEXT
+${font :size=8} ${time %H:%M %e.%m.%Y} ${font} \
+| ${cpugraph cpu1 10,30 ff0000 white} ${cpu cpu1}% \
+| ${cpugraph cpu2 10,30 ff0000 white} ${cpu cpu2}%\
+| ${memeasyfree}/${memmax} \
+| ✎ ${diskio_write} ✉ ${diskio_read} \
+| ${if_existing /proc/net/route enp0s3}net ▼${downspeed enp0s3} ▲${upspeed enp0s3} ${endif}\
+| ${if_running spotify}\
+${color #6AE368}\
+${exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'Metadata'|egrep -A 2 "artist"|egrep -v "artist"|egrep -v "array"|cut -b 27-|cut -d '"' -f 1|egrep -v ^$} - \
+${exec dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'Metadata'|egrep -A 1 "title"|egrep -v "title"|cut -b 44-|cut -d '"' -f 1|egrep -v ^$} \
+${endif}

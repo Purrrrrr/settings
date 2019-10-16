@@ -23,6 +23,8 @@ fi
 
 echo "Installing XMonad configuration to ~/.xmonad"
 ln -s $XMONAD_DIR ~/.xmonad
+echo "Installing Conky configuration to ~/.conkyrc"
+ln -s $CURRENT_DIR/conkyrc ~/.conkyrc
 
 echo "Ready, now let's do some session magic to enable it"
 sudo apt-add-repository ppa:gekkio/xmonad
