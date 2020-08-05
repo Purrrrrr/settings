@@ -39,6 +39,7 @@
       apt:
         name: "{{item}}"
         state: present
+      become: yes
       with_items: "{{ required_packages }}"
     - debug:
         msg: "{{userChoices}}"
@@ -46,6 +47,7 @@
       apt:
         name: "{{item.pkg}}"
         state: present
+      become: yes
       when: item.name in userChoices
       with_items: "{{ installable_apt_packages }}"
     - include_tasks: tasks/xmonad.yml
@@ -53,7 +55,6 @@
     - include_tasks: tasks/dotfiles.yml
       when: "'dotfiles' in userChoices"
     - name: Install starship
-      become: yes
       include_role: 
         name: andrewrothstein.starship
       when: "'starship' in userChoices"
