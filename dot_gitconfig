@@ -1,0 +1,30 @@
+[core]
+  excludesfile = /home/david/.global-gitignore
+  whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
+  autocrlf = input
+  safecrlf = false
+	editor = nvim
+[user]
+	name = Purr Consuegra
+	email = purr.consuegra@solita.fi
+[push]
+  default = current
+[color]
+  ui = true
+[color "branch"]
+  current = yellow reverse
+  local = yellow dim
+  remote = green
+[color "diff"]
+  meta = yellow dim
+  frag = magenta bold
+  old = red bold
+  new = green bold
+[color "status"]
+  added = yellow
+  changed = green
+  untracked = cyan
+[credential]
+	helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
+[alias]
+	pusheen = "!/home/david/.config/pusheen-push/push.sh git "
