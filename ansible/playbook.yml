@@ -1,0 +1,19 @@
+---
+- hosts: all
+  name: Test playbooks
+  tasks:
+    - name: Simple Message
+      prompt:
+        msg: What?
+        variable: chosenPackages
+        options:
+          - Yksi
+          - Kaksi
+    - name: Debug
+      debug:
+        msg: "{{chosenPackages}}"
+    - name: Debug
+      debug:
+        msg: Yksi
+      when: "'Yksi' in chosenPackages"
+
