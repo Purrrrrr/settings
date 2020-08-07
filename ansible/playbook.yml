@@ -2,8 +2,11 @@
 - hosts: all
   name: Test playbooks
   tasks:
+    - name: Debug
+      debug:
+        var: ansible_env.HOME
     - name: Simple Message
-      prompt:
+      select_options:
         msg: What?
         variable: chosenPackages
         options:
