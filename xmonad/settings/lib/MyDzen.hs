@@ -4,9 +4,9 @@ import XMonad.Util.Loggers
 import XMonad.Util.WorkspaceCompare
 import XMonad.Hooks.DynamicLog 
 
-dzenWidth = 500
-dzenHeight = 20
-dzenCmd = "dzen2 -bg black -fg white -fn :size=7 -w " ++ (show dzenWidth) 
+dzenWidth = 800
+dzenHeight = 32
+dzenCmd = "dzen2 -bg black -fg white -fn :size=8 -w " ++ (show dzenWidth) 
   ++ " -h " ++ (show dzenHeight) ++ " -ta l"
 
 withMouseAction button action n = wrap ("^ca(" ++ (show button) ++ ", " ++ action ++ ")") "^ca()" n

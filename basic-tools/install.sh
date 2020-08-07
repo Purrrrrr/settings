@@ -11,6 +11,7 @@ cmd=(dialog --separate-output --checklist "Select packages to install:" 22 76 16
 options=(git "Git" on
          neovim "Neovim" on
          curl "Curl" on
+	 Ag silversearcher-ag on
          'openssh-client openssh-server' "SSH client and server" on
          'openconnect   network-manager-openconnect*' "Solita VPN prequisites" on)
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
