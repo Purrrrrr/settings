@@ -1,14 +1,40 @@
 ---
 - hosts: all
   name: Test playbooks
+  vars:
+    installable_configurations:
+      - name: bash_customizations
+        description: Bash customizations
+    installable_apt_packages:
+      - name: Git
+        pkg: git
+      - name: Neovim
+        pkg: neovim
+      - name: Curl
+        pkg: curl
+      - name: Ag
+        pkg: silversearcher-ag 
+      - name: "SSH client and server" 
+        pkg: 
+          - openssh-client
+          - openssh-server
+      - name: "Solita VPN prequisites"  
+        pkg: 
+          - openconnect
+          - network-manager-openconnect*
   tasks:
     - name: Choose packages to install
       select_options:
-        msg: What?
+        msg: Choose packages to install
         variable: chosenPackages
-        options:
-          - Bash customizations
+        options: "{{installable_configurations + installable_apt_packages | map(attribute = 'name') | list }}"
+          
     - include_role: 
         name: bash_customizations
-      when: "'Bash customizations' in chosenPackages"
-
+      when: "'bash_customizations' in chosenPackages"
+    - name: Install tool packages
+      apt:
+        name: "{{item.pkg}}"
+        state: present
+      when: item.name in chosenPackages
+      with_items: "{{ installable_apt_packages }}"

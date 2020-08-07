@@ -67,7 +67,7 @@ class ActionModule(ActionBase):
 
         .. function:: _prompt(result, Parameters)
         """
-        program = ["dialog", "--nocancel", "--separate-output", "--checklist", parameters.msg, "22", "76", "16"]
+        program = ["dialog", "--no-tags", "--nocancel", "--separate-output", "--checklist", parameters.msg, "22", "76", "16"]
 
         # Parse each item on the list
         for o in parameters.options:
@@ -144,8 +144,8 @@ def parseOption(option):
     checkUnexpectedParameters(option, VALID_OPTION_PARAMS)
 
     name = validateArg(option, 'name', (unicode, str), 'string')
-    description = validateArg(args, 'description', (unicode, str), 'string', default = name)
-    default = validateArg(args, 'default', bool, 'boolean', default = True)
+    description = validateArg(option, 'description', (unicode, str), 'string', default = name)
+    default = validateArg(option, 'default', bool, 'boolean', default = True)
 
     return Option(name, description, default)
 
