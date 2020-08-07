@@ -2,21 +2,13 @@
 - hosts: all
   name: Test playbooks
   tasks:
-    - name: Debug
-      debug:
-        var: ansible_env.HOME
-    - name: Simple Message
+    - name: Choose packages to install
       select_options:
         msg: What?
         variable: chosenPackages
         options:
-          - Yksi
-          - Kaksi
-    - name: Debug
-      debug:
-        msg: "{{chosenPackages}}"
-    - name: Debug
-      debug:
-        msg: Yksi
-      when: "'Yksi' in chosenPackages"
+          - Bash customizations
+    - include_role: 
+        name: bash_customizations
+      when: "'Bash customizations' in chosenPackages"
 
