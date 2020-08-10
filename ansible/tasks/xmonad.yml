@@ -24,5 +24,6 @@
   command: stack upgrade
   become: yes
 - name: Install XMonad
-  command: stack install xmonad
-
+  command:
+    cmd: stack install xmonad
+    creates: ~/.local/bin/xmonad

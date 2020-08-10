@@ -1,6 +1,0 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
-export BASH_CONFIG=$HOME/.config/bash
-source $BASH_CONFIG/autorun.sh
-
-export EDITOR=vim
-export VISUAL=vim

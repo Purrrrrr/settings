@@ -16,7 +16,7 @@ clickable action n = withMouseAction 1 action n
 doublepad = wrap "  " "  "
 
 workspaceWheelable = wheelable "xdotool key super+Up" "xdotool key super+Down"
-clickToSwitchWorksplace n = clickable ("$HOME/.xmonad/switch_workplace "++n) $ doublepad n
+clickToSwitchWorksplace n = clickable ("$HOME/.xmonad/bin/switch_workplace "++n) $ doublepad n
 
 mydzenPP :: PP
 mydzenPP = defaultPP { 

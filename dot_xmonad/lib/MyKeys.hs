@@ -44,12 +44,7 @@ autoPromptConfig = promptConfig {
 
 dmenu_colors = "-fn '-*-fixed-medium-r-*-*-18-*-*-*-*-*-utf-8' -nb 'white' -nf 'black' -sf 'white' -sb 'red'"
 dmenu_exec  = "dmenu_run "++dmenu_colors
-dmenu_files = "exe=`$HOME/.xmonad/dmenu_home | dmenu -i -l 30 "++dmenu_colors++"` && eval \"xdg-open \\\"$exe\\\"\""
---dmenu_directories = "exe=`$HOME/.xmonad/dmenu_home | dmenu -i -l 30 "++dmenu_colors++"` && eval \"xdg-open $( dirname \\\"$exe\\\" ;)\" "
-
-suspend_cmd   = "$HOME/.xmonad/suspend.sh"
-hibernate_cmd = "dbus-send --system --print-reply --dest=\"org.freedesktop.UPower\" /org/freedesktop/UPower org.freedesktop.UPower.Hibernate"
-
+dmenu_files = "exe=`$HOME/.xmonad/bin/dmenu_home | dmenu -i -l 30 "++dmenu_colors++"` && eval \"xdg-open \\\"$exe\\\"\""
 currentLayoutName :: X String
 currentLayoutName = withWindowSet handle
                     where handle :: WindowSet -> X String
@@ -76,10 +71,6 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) =
     , ((modMask, xK_x), spawn "xeyes")
     , ((modMask, xK_p), spawn dmenu_exec)
     , ((modMask, xK_o), spawn dmenu_files)
-    --, ((modMask .|. shiftMask, xK_o), spawn dmenu_directories)
-    , ((modMask, xK_Escape), spawn hibernate_cmd)
-    , ((modMask, xK_s), spawn suspend_cmd)
-    --
     , ((modMask, xK_Down),  rotView Next)
     , ((modMask, xK_Up),    rotView Prev)
     --
@@ -91,10 +82,6 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) =
     , ((modMask,                xK_d), swapNextScreen)
     , ((modMask .|. shiftMask,  xK_d), shiftNextScreen)
 
-    --, ((modMask, xK_w), goToSelected gridConfigWin) 
-    --, ((modMask, xK_t), gridselectWorkspace gridConfig StackSet.view) 
-    --, ((modMask .|. shiftMask, xK_t), gridselectWorkspace gridConfig StackSet.shift)
-    , ((modMask, xK_w), withDefaultUpdate $ windowPromptGoto autoPromptConfig) 
     , ((modMask, xK_t), withDefaultUpdate $ workspacePrompt autoPromptConfig (windows.StackSet.view)) 
     , ((modMask .|. shiftMask, xK_t), workspacePrompt autoPromptConfig (windows.StackSet.shift))
 

@@ -1,5 +1,6 @@
 import XMonad hiding ((|||))
 import XMonad.Util.Run 
+import XMonad.Util.SpawnOnce
 import XMonad.Util.Themes
 import XMonad.Hooks.ManageDocks 
 import XMonad.Hooks.DynamicLog --Used for dzen
@@ -48,8 +49,9 @@ main = do
         ]<+> manageHook defaultConfig
       , handleEventHook = tileConkyHook >> docksEventHook
       , logHook = takeTopFocus >> fadeInactiveLogHook 0.9 >> dynamicLogWithPP mydzenPP { ppOutput = hPutStrLn dzen_main }
-      , startupHook = setWMName "LG3D"
-
+      , startupHook = do
+          setWMName "LG3D"
+          spawnOnce "conky"
       , layoutHook = myLayoutHook
       , keys = \c -> myKeys c `Data.Map.union` keys defaultConfig c
       , workspaces = concatMap (\x -> [show x, show x ++ "B"]) [1..9] ++ ["Temp"]

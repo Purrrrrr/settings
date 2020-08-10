@@ -1,0 +1,4 @@
+- name: Install chezmoi
+  snap:
+    name: chezmoi
+    classic: yes

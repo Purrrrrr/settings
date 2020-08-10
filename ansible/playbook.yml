@@ -6,8 +6,8 @@
     required_packages:
       - git
     installable_configurations:
-      - name: bash_customizations
-        description: Bash customizations
+      - name: starship
+        description: Starship shell prompt
       - name: xmonad
         description: XMonad window manager and config
     installable_apt_packages:
@@ -43,8 +43,10 @@
         state: present
       when: item.name in userChoices
       with_items: "{{ installable_apt_packages }}"
-    - include_role: 
-        name: bash_customizations
-      when: "'bash_customizations' in userChoices"
     - include_tasks: tasks/xmonad.yml
       when: "'xmonad' in userChoices"
+    - name: Install starship
+      become: yes
+      import_role: 
+        name: andrewrothstein.starship
+      when: "'starship' in userChoices"
