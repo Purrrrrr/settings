@@ -1,0 +1,28 @@
+- name: Install packages required by XMonad config
+  become: yes
+  apt:
+    state: present
+    name:
+    - at
+    - conky
+    - dzen2
+    - haskell-stack
+    - libghc-xmonad-contrib-dev
+    - libghc-xmonad-dev
+    - libx11-dev
+    - libxext-dev
+    - libxft2:i386
+    - libxft-dev
+    - libxinerama-dev
+    - libxrandr-dev
+    - libxss-dev
+    - suckless-tools
+    - wmctrl
+    - xcompmgr
+    - xdotool
+- name: Upgrade haskell stack
+  command: stack upgrade
+  become: yes
+- name: Install XMonad
+  command: stack install xmonad
+

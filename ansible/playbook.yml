@@ -2,12 +2,15 @@
 - hosts: all
   name: Test playbooks
   vars:
+    userChoices: []
+    required_packages:
+      - git
     installable_configurations:
       - name: bash_customizations
         description: Bash customizations
+      - name: xmonad
+        description: XMonad window manager and config
     installable_apt_packages:
-      - name: Git
-        pkg: git
       - name: Neovim
         pkg: neovim
       - name: Curl
@@ -26,15 +29,22 @@
     - name: Choose packages to install
       select_options:
         msg: Choose packages to install
-        variable: chosenPackages
+        variable: userChoices
         options: "{{installable_configurations + installable_apt_packages | map(attribute = 'name') | list }}"
-          
-    - include_role: 
-        name: bash_customizations
-      when: "'bash_customizations' in chosenPackages"
-    - name: Install tool packages
+      when: (userChoices | length) == 0
+    - name: Install required tool packages
+      apt:
+        name: "{{item}}"
+        state: present
+      with_items: "{{ required_packages }}"
+    - name: Install chosen tool packages
       apt:
         name: "{{item.pkg}}"
         state: present
-      when: item.name in chosenPackages
+      when: item.name in userChoices
       with_items: "{{ installable_apt_packages }}"
+    - include_role: 
+        name: bash_customizations
+      when: "'bash_customizations' in userChoices"
+    - include_tasks: tasks/xmonad.yml
+      when: "'xmonad' in userChoices"
