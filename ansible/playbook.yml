@@ -2,10 +2,13 @@
 - hosts: all
   name: Test playbooks
   vars:
-    userChoices: []
     required_packages:
       - git
     installable_configurations:
+      - name: dotfiles
+        description: Dotfiles via chezmoi
+      - name: dotfiles-apply
+        description: Apply chezmoi dotfiles automatically
       - name: starship
         description: Starship shell prompt
       - name: xmonad
@@ -31,12 +34,14 @@
         msg: Choose packages to install
         variable: userChoices
         options: "{{installable_configurations + installable_apt_packages | map(attribute = 'name') | list }}"
-      when: (userChoices | length) == 0
+      when: userChoices is undefined
     - name: Install required tool packages
       apt:
         name: "{{item}}"
         state: present
       with_items: "{{ required_packages }}"
+    - debug:
+        msg: "{{userChoices}}"
     - name: Install chosen tool packages
       apt:
         name: "{{item.pkg}}"
@@ -45,8 +50,10 @@
       with_items: "{{ installable_apt_packages }}"
     - include_tasks: tasks/xmonad.yml
       when: "'xmonad' in userChoices"
+    - include_tasks: tasks/dotfiles.yml
+      when: "'dotfiles' in userChoices"
     - name: Install starship
       become: yes
-      import_role: 
+      include_role: 
         name: andrewrothstein.starship
       when: "'starship' in userChoices"

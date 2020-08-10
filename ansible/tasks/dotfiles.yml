@@ -1,4 +1,10 @@
 - name: Install chezmoi
-  snap:
-    name: chezmoi
-    classic: yes
+  command: snap install chezmoi --classic
+  become: yes
+- name: init chezmoi repository
+  command:
+    cmd: chezmoi init git@github.com:Purrrrrr/settings.git
+    creates: ~/.local/share/chezmoi
+- name: apply chezmoi repository
+  command: chezmoi apply
+  when: "'dotfiles-apply' in userChoices"
