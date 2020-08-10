@@ -4,6 +4,13 @@ required_packages:
   - curl
   - wget
   - openssh-client
+  - build-essential
+  - screen
+  - traceroute
+  - sl
+  - whois
+  - pwgen
+  - sshfs
 installable_apt_packages:
   - name: Chromium browser
     pgk: chromium-browser
@@ -19,3 +26,10 @@ installable_apt_packages:
     pkg:
       - openconnect
       - network-manager-openconnect*
+  - name: Gimp
+    pkg: gimp
+  - name: Mosh
+    pkg: mosh
+    ppa: ppa:keithw/mosh
+  - name: NginX
+    pkg: nginx
