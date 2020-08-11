@@ -1,0 +1,18 @@
+required_packages:
+  - git
+installable_apt_packages:
+  - name: Neovim
+    pkg: neovim
+    ppa: ppa:neovim-ppa/stable
+  - name: Curl
+    pkg: curl
+  - name: Ag
+    pkg: silversearcher-ag
+  - name: "SSH client and server"
+    pkg:
+      - openssh-client
+      - openssh-server
+  - name: "Solita VPN prequisites"
+    pkg:
+      - openconnect
+      - network-manager-openconnect*

@@ -2,8 +2,6 @@
 - hosts: all
   name: Test playbooks
   vars:
-    required_packages:
-      - git
     installable_configurations:
       - name: dotfiles
         description: Dotfiles via chezmoi
@@ -13,22 +11,6 @@
         description: Starship shell prompt
       - name: xmonad
         description: XMonad window manager and config
-    installable_apt_packages:
-      - name: Neovim
-        pkg: neovim
-        ppa: ppa:neovim-ppa/stable
-      - name: Curl
-        pkg: curl
-      - name: Ag
-        pkg: silversearcher-ag
-      - name: "SSH client and server"
-        pkg:
-          - openssh-client
-          - openssh-server
-      - name: "Solita VPN prequisites"
-        pkg:
-          - openconnect
-          - network-manager-openconnect*
   tasks:
     - name: Choose packages to install
       select_options:
@@ -37,28 +19,23 @@
         options: "{{installable_configurations + installable_apt_packages | map(attribute = 'name') | list }}"
       when: userChoices is undefined
     - name: Install required tool packages
+      become: yes
       apt:
         name: "{{ required_packages }}"
         state: present
-      become: yes
-    - name: Add PPA's required by chosen tools
-      apt_repository:
-        repo: "{{item.ppa}}"
-      become: yes
-      when: item.name in userChoices and item.ppa is defined
-      with_items: "{{ installable_apt_packages }}"
-    - name: Install chosen tool packages
-      apt:
-        name: "{{item.pkg}}"
-        state: present
-      become: yes
-      when: item.name in userChoices
-      with_items: "{{ installable_apt_packages }}"
-    - include_tasks: tasks/xmonad.yml
-      when: "'xmonad' in userChoices"
-    - include_tasks: tasks/dotfiles.yml
-      when: "'dotfiles' in userChoices"
-    - name: Install starship
-      include_role:
-        name: andrewrothstein.starship
-      when: "'starship' in userChoices"
+    - name: Install apt packages chosen by user
+      include_tasks: tasks/install_package.yml
+      loop: "{{ installable_apt_packages }}"
+      when: package.name in userChoices
+      loop_control:
+        loop_var: package
+    - name: Run chosen configurations
+      block:
+      - include_tasks: tasks/xmonad.yml
+        when: "'xmonad' in userChoices"
+      - include_tasks: tasks/dotfiles.yml
+        when: "'dotfiles' in userChoices"
+      - name: Install starship
+        include_role:
+          name: andrewrothstein.starship
+        when: "'starship' in userChoices"

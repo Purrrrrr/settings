@@ -1,0 +1,10 @@
+- name: Add PPA's required by {{package.name}}
+  when: package.ppa is defined
+  become: yes
+  apt_repository:
+    repo: "{{package.ppa}}"
+- name: Install {{package.name}}
+  become: yes
+  apt:
+    name: "{{package.pkg}}"
+    state: present
