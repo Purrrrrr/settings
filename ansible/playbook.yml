@@ -16,16 +16,17 @@
     installable_apt_packages:
       - name: Neovim
         pkg: neovim
+        ppa: ppa:neovim-ppa/stable
       - name: Curl
         pkg: curl
       - name: Ag
-        pkg: silversearcher-ag 
-      - name: "SSH client and server" 
-        pkg: 
+        pkg: silversearcher-ag
+      - name: "SSH client and server"
+        pkg:
           - openssh-client
           - openssh-server
-      - name: "Solita VPN prequisites"  
-        pkg: 
+      - name: "Solita VPN prequisites"
+        pkg:
           - openconnect
           - network-manager-openconnect*
   tasks:
@@ -37,12 +38,15 @@
       when: userChoices is undefined
     - name: Install required tool packages
       apt:
-        name: "{{item}}"
+        name: "{{ required_packages }}"
         state: present
       become: yes
-      with_items: "{{ required_packages }}"
-    - debug:
-        msg: "{{userChoices}}"
+    - name: Add PPA's required by chosen tools
+      apt_repository:
+        repo: "{{item.ppa}}"
+      become: yes
+      when: item.name in userChoices and item.ppa is defined
+      with_items: "{{ installable_apt_packages }}"
     - name: Install chosen tool packages
       apt:
         name: "{{item.pkg}}"
@@ -55,6 +59,6 @@
     - include_tasks: tasks/dotfiles.yml
       when: "'dotfiles' in userChoices"
     - name: Install starship
-      include_role: 
+      include_role:
         name: andrewrothstein.starship
       when: "'starship' in userChoices"
