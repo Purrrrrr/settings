@@ -1,0 +1,16 @@
+[git_status]
+ahead = "↑"
+behind = "↓"
+show_sync_count = true
+conflicted = " ✖ "
+conflicted_count.enabled = true
+diverged = " <->"
+untracked = " …"
+stashed = "⚑ "
+stashed_count.enabled = true
+modified = " ●"
+modified_count.enabled = true
+staged = " +"
+staged_count.enabled = true
+renamed_count.enabled = true
+deleted_count.enabled = true
