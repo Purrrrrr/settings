@@ -8,3 +8,6 @@
 - name: apply chezmoi repository
   command: chezmoi apply
   when: "'dotfiles-apply' in userChoices"
+- name: Install all (n)vim plugins
+  command: vim +'PlugInstall --sync' +qa
+  when: "'dotfiles-apply' in userChoices"
