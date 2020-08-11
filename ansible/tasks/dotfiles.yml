@@ -5,9 +5,15 @@
   command:
     cmd: chezmoi init git@github.com:Purrrrrr/settings.git
     creates: ~/.local/share/chezmoi
-- name: apply chezmoi repository
-  command: chezmoi apply
+- name: Create/insert dotfiles with chezmoi
   when: "'dotfiles-apply' in userChoices"
-- name: Install all (n)vim plugins
-  command: vim +'PlugInstall --sync' +qa
-  when: "'dotfiles-apply' in userChoices"
+  block:
+  - name: Install chezmoi configuration
+    template:
+      src: files/chezmoi.toml.j2
+      dest: ~/.config/chezmoi/chezmoi.toml
+      mode: '0600'
+  - name: apply chezmoi repository
+    command: chezmoi apply
+  - name: Install all (n)vim plugins
+    command: vim +'PlugInstall --sync' +qa

@@ -1,0 +1,23 @@
+Host *
+ServerAliveInterval 300
+
+Host pi
+HostName purrrrrr.dy.fi
+Port 500
+User pi
+
+Host github.com
+HostName github.com
+IdentityFile ~/.ssh/id_rsa.github
+
+Host aulis
+HostName aulis.sange.fi
+User purrrrrr
+
+Host oiva
+HostName oiva.sange.fi
+User purrrrrr
+
+Host uljas
+HostName uljas.sange.fi
+User purrrrrr
