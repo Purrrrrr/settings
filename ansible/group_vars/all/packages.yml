@@ -1,17 +1,20 @@
 required_packages:
   - git
+  - net_tools
+  - curl
+  - wget
+  - openssh-client
 installable_apt_packages:
+  - name: Chromium browser
+    pgk: chromium-browser
+    ppa: ppa:chromium-team/stable
   - name: Neovim
     pkg: neovim
     ppa: ppa:neovim-ppa/stable
-  - name: Curl
-    pkg: curl
   - name: Ag
     pkg: silversearcher-ag
-  - name: "SSH client and server"
-    pkg:
-      - openssh-client
-      - openssh-server
+  - name: "SSH server"
+    pkg: openssh-server
   - name: "Solita VPN prequisites"
     pkg:
       - openconnect
