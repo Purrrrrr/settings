@@ -16,13 +16,20 @@
       select_options:
         msg: Choose packages to install
         variable: userChoices
-        options: "{{installable_configurations + installable_apt_packages | map(attribute = 'name') | list }}"
+        options: "{{installable_configurations + (installable_apt_packages | map(attribute = 'name') | list + installable_snap_packages | map(attribute = 'name') | list) | sort}}"
       when: userChoices is undefined
     - name: Install required tool packages
       become: yes
       apt:
-        name: "{{ required_packages }}"
+        name: "{{ required_apt_packages }}"
         state: present
+    - name: Install snap packages chosen by user
+      command: snap install {{package.pkg}}
+      become: yes
+      loop: "{{ installable_snap_packages }}"
+      when: package.name in userChoices
+      loop_control:
+        loop_var: package
     - name: Install apt packages chosen by user
       include_tasks: tasks/install_package.yml
       loop: "{{ installable_apt_packages }}"

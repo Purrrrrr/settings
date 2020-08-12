@@ -1,4 +1,4 @@
-required_packages:
+required_apt_packages:
   - git
   - net-tools
   - curl
@@ -13,11 +13,10 @@ required_packages:
   - sshfs
 installable_snap_packages:
   - name: Chromium browser
-    pgk: chromium-browser
+    pkg: chromium-browser
 installable_apt_packages:
   - name: Neovim
     pkg: neovim
-    ppa: ppa:neovim-ppa/stable
   - name: Ag
     pkg: silversearcher-ag
   - name: "SSH server"
@@ -30,6 +29,5 @@ installable_apt_packages:
     pkg: gimp
   - name: Mosh
     pkg: mosh
-    ppa: ppa:keithw/mosh
   - name: NginX
     pkg: nginx
