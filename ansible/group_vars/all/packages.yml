@@ -1,6 +1,6 @@
 required_packages:
   - git
-  - net_tools
+  - net-tools
   - curl
   - wget
   - openssh-client
@@ -11,10 +11,10 @@ required_packages:
   - whois
   - pwgen
   - sshfs
-installable_apt_packages:
+installable_snap_packages:
   - name: Chromium browser
     pgk: chromium-browser
-    ppa: ppa:chromium-team/stable
+installable_apt_packages:
   - name: Neovim
     pkg: neovim
     ppa: ppa:neovim-ppa/stable

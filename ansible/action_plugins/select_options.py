@@ -16,6 +16,11 @@ import subprocess
 from collections import namedtuple
 from ansible.plugins.action import ActionBase
 
+
+usingPython3 = sys.version_info[0] >= 3
+if usingPython3:
+    unicode = str
+
 VALID_PARAMS = ['variable','msg','options']
 Parameters = namedtuple('Parameters', VALID_PARAMS)
 rValidVariable = re.compile(r"^[A-Za-z0-9_]+$")
@@ -80,6 +85,8 @@ class ActionModule(ActionBase):
 
         command = subprocess.Popen(program, stderr=subprocess.PIPE)
         output, dialogResult = command.communicate()
+        if usingPython3:
+          dialogResult = str(dialogResult, "utf-8")
         dialogResult = dialogResult.rstrip("\n")
         dialogResult = dialogResult.split("\n") if dialogResult != "" else []
 

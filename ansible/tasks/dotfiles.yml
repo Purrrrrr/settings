@@ -3,11 +3,13 @@
   become: yes
 - name: init chezmoi repository
   command:
-    cmd: chezmoi init git@github.com:Purrrrrr/settings.git
+    cmd: chezmoi init https://github.com/Purrrrrr/settings.git
     creates: ~/.local/share/chezmoi
 - name: Create/insert dotfiles with chezmoi
   when: "'dotfiles-apply' in userChoices"
   block:
+  - name: Ensures chezmoi config dir exists
+    file: path=~/.config/chezmoi state=directory
   - name: Install chezmoi configuration
     template:
       src: files/chezmoi.toml.j2
