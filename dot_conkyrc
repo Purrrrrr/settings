@@ -32,8 +32,8 @@ minimum_size              600 20
 
 TEXT
 ${time %H:%M %e.%m.%Y} \
- | ${cpugraph cpu1 20,60 ff0000 white} ${cpu cpu1}% \
- | ${cpugraph cpu2 20,60 ff0000 white} ${cpu cpu2}%\
+ | ${cpugraph cpu1 10,60 ff0000 white} ${cpu cpu1}% \
+ | ${cpugraph cpu2 10,60 ff0000 white} ${cpu cpu2}%\
  | ${memeasyfree}/${memmax} \
  | ✎ ${diskio_write} ✉ ${diskio_read} \
 ${if_existing /proc/net/route enp0s3}\
