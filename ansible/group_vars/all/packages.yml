@@ -13,7 +13,7 @@ required_apt_packages:
   - sshfs
 installable_snap_packages:
   - name: Chromium browser
-    pkg: chromium-browser
+    pkg: chromium
 installable_apt_packages:
   - name: Neovim
     pkg: neovim
