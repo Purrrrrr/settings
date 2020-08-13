@@ -1,2 +1,4 @@
 - src: andrewrothstein.starship
   version: v1.0.5
+- src: markosamuli.nvm
+  version: v1.4.2

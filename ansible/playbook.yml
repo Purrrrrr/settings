@@ -11,6 +11,8 @@
         description: Starship shell prompt
       - name: xmonad
         description: XMonad window manager and config
+      - name: nvm
+        description: NVM - node version manager
   tasks:
     - name: Choose packages to install
       select_options:
@@ -46,3 +48,10 @@
         include_role:
           name: andrewrothstein.starship
         when: "'starship' in userChoices"
+        when: "'nvm' in userChoices"
+      - name: Install NVM
+        include_role:
+          name: markosamuli.nvm
+        vars:
+          nvm_shell_init: no
+
