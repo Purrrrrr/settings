@@ -37,7 +37,7 @@ main = do
   dzen_main <- spawnPipe dzenCmd 
   xcompmgr <- spawn "xcompmgr"
   xmonad $ ewmh defaultConfig { 
-        terminal = "gnome-terminal"
+        terminal = "x-terminal-emulator"
       , borderWidth = 0 
       , modMask = mod4Mask
       , manageHook = manageDocks <+> composeAll [
