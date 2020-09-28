@@ -33,3 +33,7 @@ installable_apt_packages:
     pkg: mosh
   - name: NginX
     pkg: nginx
+  - name: OpenJDK 14
+    pkg: openjdk-14-jdk
+  - name: Leiningen
+    pkg: leiningen

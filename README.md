@@ -16,7 +16,6 @@ You can also preselect some options to install without prompts
 Missing packages and programs I would like to automate:
 
 * eslint/eslint_d
-* Java
 * IntelliJ Idea (what about licenses?)
 * KeePassXC browser integration
 * AWS cli
