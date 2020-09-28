@@ -34,9 +34,10 @@ call plug#end()
 
 set tabstop=8 softtabstop=2 shiftwidth=2 expandtab
 set number relativenumber
-set ignorecase
-set smartcase
+set ignorecase smartcase
+set incsearch
 
+"Show relative numbers only on the focused buffer
 augroup numbertoggle
   autocmd!
   autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
@@ -49,7 +50,7 @@ let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_max_files=0
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 
-set statusline  =\ %<%F\ %y         "full path and filetype
+set statusline  =\ %<%F\ %y        "full path and filetype
 set statusline +=\ %m              "modified flag
 set statusline +=\ %=\ %l/%L\      "Rownumber
 set statusline +=\ col:%03v\       "Colnr
@@ -64,7 +65,7 @@ let maplocalleader = "-"
 nnoremap <Leader>o :CtrlP<CR>
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>q :q<CR>
-nnoremap <Leader>d :call ToggleBg()<CR>
+nnoremap <Leader>d :call  <SID>ToggleBg()<CR>
 "Clear search hilight
 noremap <Leader>c :nohlsearch<CR>
 "Reload vim config
@@ -91,17 +92,17 @@ nnoremap <Leader>s :split<CR>:LspDefinition<CR>
 set updatetime=500
 augroup autohover
   autocmd!
-  autocmd CursorHold *.ts,*.tsx call LspHoverWhenNoPreview()
+  autocmd CursorHold *.ts,*.tsx call <SID>LspHoverWhenNoPreview()
 augroup END
 
-function! LspHoverWhenNoPreview()
-  if PreviewWindowOpened() == 0
-    LspHover
+function! s:LspHoverWhenNoPreview()
+  if <SID>PreviewWindowOpened() == 0
+    silent! LspHover
   endif
 endfunction
 
 
-function! PreviewWindowOpened()
+function! s:PreviewWindowOpened()
   for nr in range(1, winnr('$'))
     if getwinvar(nr, "&pvw") == 1
       " found a preview
@@ -116,7 +117,7 @@ endfunction
 " move to the window in the direction shown, or create a new split in that
 " direction
 " ----------------------------------------------------------------------------
-function! WinMove(key)
+function! s:WinMove(key)
     let t:curwin = winnr()
     exec "wincmd ".a:key
     if (t:curwin == winnr())
@@ -129,10 +130,10 @@ function! WinMove(key)
     endif
 endfunction
 
-nnoremap <silent> <C-h> :call WinMove('h')<cr>
-nnoremap <silent> <C-j> :call WinMove('j')<cr>
-nnoremap <silent> <C-k> :call WinMove('k')<cr>
-nnoremap <silent> <C-l> :call WinMove('l')<cr>
+nnoremap <silent> <C-h> :call <SID>WinMove('h')<cr>
+nnoremap <silent> <C-j> :call <SID>WinMove('j')<cr>
+nnoremap <silent> <C-k> :call <SID>WinMove('k')<cr>
+nnoremap <silent> <C-l> :call <SID>WinMove('l')<cr>
 
 " ----------------------------------------------------------------------------
 " Setup color scheme "one"
@@ -146,8 +147,9 @@ if (empty($TMUX))
 endif
 
 " Hilight extra whitespace at the end of nonempty lines
-highlight ExtraWhitespace ctermbg=yellow guibg=yellow
-autocmd ColorScheme * highlight ExtraWhitespace ctermbg=yellow guibg=yellow
+highlight ExtraWhitespace ctermbg=red guibg=red
+autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+"Hilight extra whitespace at line ends, but only if it isn't before the cursor
 match ExtraWhitespace /\s\+\%#\@<!$/
 
 let g:one_allow_italics = 1
@@ -155,7 +157,7 @@ colorscheme one
 set background=light
 call one#highlight('StatusLine', 'ffffff', '444444', 'none')
 
-func! ToggleBg()
+func! s:ToggleBg()
     if (&background == "dark")
       set background=light
       call one#highlight('StatusLine', 'ffffff', '444444', 'none')
