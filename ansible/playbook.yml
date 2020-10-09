@@ -11,6 +11,8 @@
         description: Starship shell prompt
       - name: xmonad
         description: XMonad window manager and config
+      - name: cypress
+        description: Dependencies for Cypress testing framework
       - name: nvm
         description: NVM - node version manager
   tasks:
@@ -42,14 +44,16 @@
       block:
       - include_tasks: tasks/xmonad.yml
         when: "'xmonad' in userChoices"
+      - include_tasks: tasks/cypress-dependencies.yml
+        when: "'cypress' in userChoices"
       - include_tasks: tasks/dotfiles.yml
         when: "'dotfiles' in userChoices"
       - name: Install starship
         include_role:
           name: andrewrothstein.starship
         when: "'starship' in userChoices"
-        when: "'nvm' in userChoices"
       - name: Install NVM
+        when: "'nvm' in userChoices"
         include_role:
           name: markosamuli.nvm
         vars:
