@@ -18,4 +18,4 @@
   - name: apply chezmoi repository
     command: chezmoi apply
   - name: Install all (n)vim plugins
-    command: vim +'PlugInstall --sync' +qa
+    command: nvim +'PlugInstall --sync' +qa
