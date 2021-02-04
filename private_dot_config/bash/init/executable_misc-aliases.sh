@@ -20,3 +20,7 @@ alias git-meld='git difftool  -d -t meld'
 #We call date with sudo to make the script ask the pasword right away instead of after printing the date
 alias sync-system-time='sudo date && echo "Updating..." && sudo ntpdate -s us.pool.ntp.org && date'
 alias cal='ncal -C'
+
+if hash nvim 2>/dev/null; then
+  alias vim=nvim
+fi
