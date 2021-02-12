@@ -30,8 +30,8 @@ def defineType(typename, **defs):
 
     return typeObj, parseType
 
-Parameters, parseParameters= defineType('Question',
-        questions = dict(validTypes = list, description = 'list of questions', mapper = lambda qs: map(parseQuestion, qs)),
+Parameters, parseParameters= defineType('Parameters',
+        questions = dict(validTypes = list, description = 'list of questions', mapper = lambda qs: list(map(parseQuestion, qs))),
         )
 
 def checkValidVariable(variable):
@@ -47,13 +47,13 @@ Question, parseQuestion = defineType('Question',
         variable = dict(validTypes = stringType, description = 'variable name', mapper = checkValidVariable),
         question = basicString,
         many = dict(validTypes = bool, default = True),
-        choices = dict(validTypes = list, mapper = lambda chs: map(parseChoice, chs)),
+        choices = dict(validTypes = list, mapper = lambda chs: list(map(parseChoice, chs))),
         )
 
 Choice, parseFullChoice = defineType('Choice',
         value = basicString,
         description = dict(optional = True, **basicString),
-        questions = dict(validTypes = list, optional = True, default = [], mapper = lambda qs: map(parseQuestion, qs))
+        questions = dict(validTypes = list, optional = True, default = [], mapper = lambda qs: list(map(parseQuestion, qs)))
         )
 def parseChoice(choice):
     if isinstance(choice, stringType):
@@ -111,6 +111,8 @@ class ActionModule(ActionBase):
         # Convert to terminal input temporarily
         oldin = sys.stdin
         sys.stdin = open("/dev/tty")
+
+        #print(parameters)
 
         q = Questionnaire()
         for question in parameters.questions:
