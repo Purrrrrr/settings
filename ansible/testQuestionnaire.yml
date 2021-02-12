@@ -1,0 +1,27 @@
+---
+- hosts: all
+  gather_facts: no
+  name: Test playbooks
+  tasks:
+    #    - name: Install helpers
+    #  pip:
+    #    name: questionnaire
+    #    extra_args: '--user'
+    - name: Choose packages to install
+      doQuestionnaire:
+        questions:
+          - question: "???"
+            variable: userChoices
+            choices: 
+              - ads
+              - value: sieni
+                questions:
+                - question: What shroom?
+                  variable: shroom
+                  choices:
+                    - shroom
+                    - bettershroom
+    - name: print ansible_local
+      debug: var=userChoices
+    - name: print 
+      debug: var=shroom
