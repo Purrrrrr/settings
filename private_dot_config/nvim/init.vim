@@ -30,6 +30,7 @@ Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'ryanolsonx/vim-lsp-typescript'
+Plug 'ryanolsonx/vim-lsp-javascript'
 call plug#end()
 
 set tabstop=8 softtabstop=2 shiftwidth=2 expandtab
@@ -85,6 +86,7 @@ inoremap <C-CR> <Esc>
 " ----------------------------------------------------------------------------
 noremap <F2> :LspRename<CR>
 nnoremap <Leader>h :LspHover<CR>
+nnoremap <Leader>j :LspImplementation<CR>
 nnoremap <Leader>p :LspPeekDefinition<CR>
 nnoremap <Leader>s :split<CR>:LspDefinition<CR>
 "Show LSP Hover after 300 milliseconds, but only if no other preview window is

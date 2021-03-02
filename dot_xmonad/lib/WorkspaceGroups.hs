@@ -1,11 +1,13 @@
 {-# LANGUAGE DeriveDataTypeable #-}
-module WorkspaceGroups(getDefaultWorkspace, nextUnboundWorkspace, nextFromWorkspaceGroup, updateCurrentDefault, withDefaultUpdate, test) where
+module WorkspaceGroups(defaultInWorkspaceGroup, nextUnboundWorkspace, nextWorkspaceInGroup, nextFromWorkspaceGroup, updateCurrentDefault, updateDefaultInGroup, withDefaultWorkspaceInGroup) where
 
 import XMonad
 import qualified XMonad.StackSet as SSet
 import qualified Data.Map as M
 import qualified XMonad.Util.ExtensibleState as XS
 import Data.List (findIndex, isPrefixOf)
+import Data.Maybe
+import Control.Monad
 import XMonad.Util.WorkspaceCompare
 
 data DefaultWorkspaces = DefaultWorkspaces (M.Map String WorkspaceId) deriving (Typeable,Read,Show)
@@ -14,24 +16,20 @@ instance ExtensionClass DefaultWorkspaces where
   initialValue = DefaultWorkspaces M.empty
   extensionType = PersistentExtension
 
+type Group = String
+
 --TODO: nextScreen?, swapnextScreen?, windowPromptGoto, workspacePrompt, swapWorkspace
 
-withDefaultUpdate :: X() -> X()
-withDefaultUpdate act = do
+updateDefaultInGroup :: X() -> X()
+updateDefaultInGroup act = do
   act
   updateCurrentDefault
-
-test :: X() 
-test = do
-  (DefaultWorkspaces m) <- XS.get :: X DefaultWorkspaces
-  trace (show m)
 
 updateCurrentDefault :: X()
 updateCurrentDefault = do
   ws <- gets windowset
   let cur = SSet.tag $ SSet.workspace $ SSet.current ws
-      h = head cur
-      group = if h `elem` ['1'..'9'] then [h] else ""
+      group = workspaceGroup cur
   setDefaultWorkspace group cur
 
 setDefaultWorkspace :: String -> WorkspaceId -> X()
@@ -41,42 +39,62 @@ setDefaultWorkspace group tag = do
           let newM = M.insert group tag m
           in DefaultWorkspaces newM
 
-getDefaultWorkspace :: WorkspaceId -> String -> X WorkspaceId
-getDefaultWorkspace def group = do
-  ws   <- gets windowset
-  (DefaultWorkspaces m) <- XS.get :: X DefaultWorkspaces
-  let tag = M.findWithDefault def group m
-      existing = map SSet.tag $ SSet.workspaces ws
-      tagExists = tag `elem` existing
-  return $ if tagExists then tag else def
+withDefaultWorkspaceInGroup :: Group -> (WorkspaceId -> X ()) -> X ()
+withDefaultWorkspaceInGroup grp action = do
+  ws <- defaultInWorkspaceGroup grp
+  fromMaybe (return ()) (fmap action ws)
 
-nextFromWorkspaceGroup:: String -> X WorkspaceId
-nextFromWorkspaceGroup init = nextByFunction init (isPrefixOf init)
+defaultInWorkspaceGroup :: Group -> X (Maybe WorkspaceId)
+defaultInWorkspaceGroup group = do
+  (DefaultWorkspaces m) <- XS.get :: X DefaultWorkspaces
+  ws   <- gets windowset
+  workspaces <- workspacesByGroup group
+  let existing = map SSet.tag $ SSet.workspaces ws
+      tagExists x = x `elem` existing
+      possibleDefault = mfilter tagExists $ M.lookup group m
+  return $ case possibleDefault of
+                Nothing -> case workspaces of
+                             ws:_ -> Just ws
+                             _ -> Nothing
+                x -> x
+
+nextWorkspaceInGroup :: X WorkspaceId
+nextWorkspaceInGroup = do
+  ws   <- gets windowset
+  let cur = SSet.tag $ SSet.workspace $ SSet.current ws
+  nextFromWorkspaceGroup (workspaceGroup cur)
 
 nextUnboundWorkspace :: X WorkspaceId
-nextUnboundWorkspace = nextByFunction "" notBound
- where notBound x = not $ elem (head x) ['1'..'9']
+nextUnboundWorkspace = nextFromWorkspaceGroup ""
 
-nextByFunction :: String -> (WorkspaceId -> Bool) -> X WorkspaceId
-nextByFunction group fun = do
+nextFromWorkspaceGroup :: Group -> X WorkspaceId
+nextFromWorkspaceGroup group = do
+  list <- workspacesByGroup group
+  ws   <- gets windowset
+  let cur = SSet.tag $ SSet.workspace $ SSet.current ws
+  def <- defaultInWorkspaceGroup group
+  let next = nextWorkspaceFromList cur list
+  return $ if cur `elem` list then next else (fromMaybe cur def)
+
+workspaceGroup :: WorkspaceId -> Group
+workspaceGroup ws = let x = head ws
+                        isNumbered = '0' < x && x <= '9'
+                    in if isNumbered then [x] else ""
+
+isInGroup :: Group -> WorkspaceId -> Bool
+isInGroup grp ws = workspaceGroup ws == grp
+
+workspacesByGroup :: Group -> X [WorkspaceId]
+workspacesByGroup group = do
   sort <- getSortByTag
   ws   <- gets windowset
   let sorted = map SSet.tag $ sort $ SSet.workspaces ws
-      list = filter fun sorted
-      cur = SSet.tag $ SSet.workspace $ SSet.current ws
-      list_def = if null list then cur else head list
-  def <- getDefaultWorkspace list_def group
-  next <- nextWorkspaceFromList cur list
-  return $ if cur `elem` list then next else def
+  return $ filter (isInGroup group) sorted
 
--- Returns next 
-nextWorkspaceFromList :: WorkspaceId -> [WorkspaceId] -> X WorkspaceId
-nextWorkspaceFromList cur [] = do return cur
-nextWorkspaceFromList cur wss = do
-  ws <- gets windowset
-  let pivoted = let (a,b) = span (/= cur) wss in b ++ a 
-      curindex  = findIndex (== cur) pivoted
-      next    = case curindex of
-                    Nothing -> pivoted !! 0
-                    Just ix -> pivoted !! ((ix + 1) `mod` length pivoted)
-  return next 
+nextWorkspaceFromList :: WorkspaceId -> [WorkspaceId] -> WorkspaceId
+nextWorkspaceFromList cur [] = cur
+nextWorkspaceFromList cur wss = let pivoted = let (a,b) = span (/= cur) wss in b ++ a 
+                                    curindex  = findIndex (== cur) pivoted
+                                in  case curindex of
+                                         Nothing -> pivoted !! 0
+                                         Just ix -> pivoted !! ((ix + 1) `mod` length pivoted)

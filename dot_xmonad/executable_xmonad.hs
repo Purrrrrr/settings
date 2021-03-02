@@ -1,17 +1,16 @@
 import XMonad hiding ((|||))
-import XMonad.Util.Run 
+import XMonad.Util.Run
 import XMonad.Util.SpawnOnce
 import XMonad.Util.Themes
-import XMonad.Hooks.ManageDocks 
+import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.DynamicLog --Used for dzen
 import XMonad.Hooks.SetWMName
 import XMonad.Hooks.ICCCMFocus
 import XMonad.Hooks.EwmhDesktops
-import XMonad.Layout.LayoutCombinators 
+import XMonad.Layout.LayoutCombinators
 import qualified XMonad.StackSet as W
 import qualified XMonad.Layout.Groups as G
 import XMonad.Layout.Groups.Helpers
---import XMonad.Layout.ZoomRow
 import XMonad.Layout.Tabbed
 import XMonad.Layout.Renamed
 import XMonad.Layout.Named
@@ -30,16 +29,15 @@ import ZoomRowPlus
 import ZoomRowPlus.Group
 import TabAccordion
 import FadeInactive
-import Stoppable
 import SpawnAndRead
 
 main = do
-  dzen_main <- spawnPipe dzenCmd 
+  dzen_main <- spawnPipe dzenCmd
   xcompmgr <- spawn "xcompmgr"
-  xmonad $ ewmh defaultConfig { 
+  xmonad $ ewmh defaultConfig {
         terminal = "x-terminal-emulator"
-      , borderWidth = 0 
-      , modMask = mod4Mask
+      , borderWidth = 0
+      , modMask = mod1Mask
       , manageHook = manageDocks <+> composeAll [
           className =? "conky" --> tileConky
         , className =? "Gimp" --> (ask >>= doF . W.sink)
@@ -53,7 +51,7 @@ main = do
           setWMName "LG3D"
           spawnOnce "conky"
       , layoutHook = myLayoutHook
-      , keys = \c -> myKeys c `Data.Map.union` keys defaultConfig c
+      , keys = myKeys
       , workspaces = concatMap (\x -> [show x, show x ++ "B"]) [1..9] ++ ["Temp"]
   }
 
@@ -65,15 +63,13 @@ myTheme = theme smallClean
 wmii s t = G.group innerLayout zoomRowG
     where column = named "Column" $ Mirror zoomRow
           tabs = named "Tabs" $ tabAccordion s t
-          innerLayout = renamed [CutWordsLeft 2] 
-                        $ ignore NextLayout 
-                        $ ignore (JumpToLayout "") $ unEscape 
+          innerLayout = renamed [CutWordsLeft 2]
+                        $ ignore NextLayout
+                        $ ignore (JumpToLayout "") $ unEscape
                            $ column ||| tabs ||| Full
 
 myLayoutHook = avoidStruts $
-  --onWorkspace "Gimp" (Tall 1 (3/100) (4/5)) $
-  mkToggle (single STOPPABLE) $
   mkToggle (single FULL) $
   mkToggle (single MIRROR) $
   wmii shrinkText myTheme
- 
+
