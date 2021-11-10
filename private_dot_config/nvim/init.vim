@@ -8,9 +8,10 @@ Plug 'mileszs/ack.vim'
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'jparise/vim-graphql'
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
+Plug 'yuezk/vim-js'
+Plug 'maxmellon/vim-jsx-pretty'
 Plug 'wavded/vim-stylus'
+Plug 'lepture/vim-jinja'
 
 "Automatically close quotes, parenthesis, brackets etc.
 Plug 'Raimondi/delimitMate'
@@ -25,13 +26,12 @@ Plug 'tpope/vim-vinegar'
 Plug 'milkypostman/vim-togglelist'
 
 "LSP and typescript
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-Plug 'ryanolsonx/vim-lsp-typescript'
-Plug 'ryanolsonx/vim-lsp-javascript'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'neovim/nvim-lspconfig'
+Plug 'jose-elias-alvarez/null-ls.nvim'
 call plug#end()
+
+let g:vim_jsx_pretty_colorful_config = 1 " default 0
 
 set tabstop=8 softtabstop=2 shiftwidth=2 expandtab
 set number relativenumber
@@ -56,64 +56,6 @@ set statusline +=\ %m              "modified flag
 set statusline +=\ %=\ %l/%L\      "Rownumber
 set statusline +=\ col:%03v\       "Colnr
 set statusline +=0x%04B\           "character under cursor
-
-" ----------------------------------------------------------------------------
-" General keybindings
-" ----------------------------------------------------------------------------
-
-let mapleader = "\<Space>"
-let maplocalleader = "-"
-nnoremap <Leader>o :CtrlP<CR>
-nnoremap <Leader>w :w<CR>
-nnoremap <Leader>q :q<CR>
-nnoremap <Leader>d :call  <SID>ToggleBg()<CR>
-"Clear search hilight
-noremap <Leader>c :nohlsearch<CR>
-"Reload vim config
-nnoremap <leader>sv :source $MYVIMRC<CR>
-nnoremap <leader>vv :split $MYVIMRC<CR>
-"Max current window height
-noremap <Leader>m <C-w>100+
-
-let g:toggle_list_no_mappings="true"
-
-map  esc
-inoremap <S-CR> <Esc>
-inoremap <C-CR> <Esc>
-
-" ----------------------------------------------------------------------------
-"LSP toolset keys
-" ----------------------------------------------------------------------------
-noremap <F2> :LspRename<CR>
-nnoremap <Leader>h :LspHover<CR>
-nnoremap <Leader>j :LspImplementation<CR>
-nnoremap <Leader>p :LspPeekDefinition<CR>
-nnoremap <Leader>s :split<CR>:LspDefinition<CR>
-"Show LSP Hover after 300 milliseconds, but only if no other preview window is
-"open right now
-set updatetime=500
-augroup autohover
-  autocmd!
-  autocmd CursorHold *.ts,*.tsx call <SID>LspHoverWhenNoPreview()
-augroup END
-
-function! s:LspHoverWhenNoPreview()
-  if <SID>PreviewWindowOpened() == 0
-    silent! LspHover
-  endif
-endfunction
-
-
-function! s:PreviewWindowOpened()
-  for nr in range(1, winnr('$'))
-    if getwinvar(nr, "&pvw") == 1
-      " found a preview
-      return 1
-    endif
-  endfor
-  return 0
-endfunction
-
 
 " ----------------------------------------------------------------------------
 " move to the window in the direction shown, or create a new split in that
@@ -170,3 +112,98 @@ func! s:ToggleBg()
 endfunc
 
 set expandtab
+
+" ----------------------------------------------------------------------------
+"LSP config
+" ----------------------------------------------------------------------------
+
+lua << EOF
+local lsp = require'lspconfig'
+
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  vim.cmd("command! LspDef lua vim.lsp.buf.definition()")
+  vim.cmd("command! LspFormatting lua vim.lsp.buf.formatting()")
+  vim.cmd("command! LspCodeAction lua vim.lsp.buf.code_action()")
+  vim.cmd("command! LspHover lua vim.lsp.buf.hover()")
+  vim.cmd("command! LspRename lua vim.lsp.buf.rename()")
+  vim.cmd("command! LspRefs lua vim.lsp.buf.references()")
+  vim.cmd("command! LspTypeDef lua vim.lsp.buf.type_definition()")
+  vim.cmd("command! LspImplementation lua vim.lsp.buf.implementation()")
+  vim.cmd("command! LspDiagPrev lua vim.lsp.diagnostic.goto_prev()")
+  vim.cmd("command! LspDiagNext lua vim.lsp.diagnostic.goto_next()")
+  vim.cmd("command! LspDiagLine lua vim.lsp.diagnostic.show_line_diagnostics()")
+  vim.cmd("command! LspSignatureHelp lua vim.lsp.buf.signature_help()")
+
+  -- Enable completion triggered by <c-x><c-o>
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+    -- Mappings.
+  local opts = { noremap=true, silent=false }
+
+  buf_set_keymap('n', '<F2>', '<cmd>LspRename<CR>', opts)
+  buf_set_keymap('n', '<Leader>e', '<cmd>LspDiagNext<CR>', opts)
+  buf_set_keymap('n', '<Leader>s', '<cmd>split<CR><cmd>LspDef<CR>', opts)
+  buf_set_keymap('n', 'gd', '<cmd>LspDef<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>LspRefs<CR>', opts)
+  buf_set_keymap('n', 'gi', '<cmd>LspImplementation<CR>', opts)
+  buf_set_keymap('n', 'K', '<cmd>LspHover<CR>', opts)
+  buf_set_keymap('n', '<Leader><space>', '<cmd>LspCodeAction<CR>', opts)
+--[[ "LSP
+"nnoremap <Leader>j :LspImplementation<CR>
+"nnoremap <Leader>r :LspReferences<CR>
+"nnoremap <Leader>p :LspPeekDefinition<CR>
+"nnoremap <Leader>s :split<CR>:LspDefinition<CR>
+"nnoremap <Leader>d :LspDefinition<CR>
+
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  -- buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  -- buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  -- buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+--]]
+end
+
+lsp.tsserver.setup {
+  on_attach = on_attach
+  }
+lsp.eslint.setup{}
+
+EOF
+
+" ----------------------------------------------------------------------------
+" General keybindings
+" ----------------------------------------------------------------------------
+
+let mapleader = "\<Space>"
+let maplocalleader = "-"
+nnoremap <C-PageUp> :prev<CR>
+nnoremap <C-PageDown> :next<CR>
+nnoremap <Leader>o :CtrlP<CR>
+nnoremap <Leader>w :w<CR>
+" nnoremap <Leader>d :call  <SID>ToggleBg()<CR>
+nnoremap <Leader>q :q<CR>
+nnoremap <Leader>a :Ack<CR>
+"Clear search hilight
+noremap <Leader>c :nohlsearch<CR>
+"Reload vim config
+nnoremap <leader>sv :source $MYVIMRC<CR>
+nnoremap <leader>vv :split $MYVIMRC<CR>
+"Max current window height
+noremap <Leader>m <C-w>100+
+
+let g:toggle_list_no_mappings="true"
+
+map  esc
+inoremap <S-CR> <Esc>
+inoremap <C-CR> <Esc>
