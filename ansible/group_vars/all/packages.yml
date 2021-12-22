@@ -16,9 +16,11 @@ installable_snap_packages:
     pkg: chromium
   - name: KeepPassXC
     pkg: keepassxc
-installable_apt_packages:
   - name: Neovim
     pkg: neovim
+installable_apt_packages:
+  - name: Xclip for Neovim clipboard support
+    pkg: xclip
   - name: Ag
     pkg: silversearcher-ag
   - name: "SSH server"
