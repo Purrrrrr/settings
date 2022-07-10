@@ -12,6 +12,7 @@ import qualified XMonad.StackSet as W
 import qualified XMonad.Layout.Groups as G
 import XMonad.Layout.Groups.Helpers
 import XMonad.Layout.Tabbed
+import XMonad.Layout.Gaps
 import XMonad.Layout.Renamed
 import XMonad.Layout.Named
 import XMonad.Layout.PerWorkspace
@@ -30,6 +31,8 @@ import ZoomRowPlus.Group
 import TabAccordion
 import FadeInactive
 import SpawnAndRead
+
+customTopGap = 0
 
 main = do
   dzen_main <- spawnPipe dzenCmd
@@ -69,6 +72,7 @@ wmii s t = G.group innerLayout zoomRowG
                            $ column ||| tabs ||| Full
 
 myLayoutHook = avoidStruts $
+  gaps [(U, customTopGap)] $
   mkToggle (single FULL) $
   mkToggle (single MIRROR) $
   wmii shrinkText myTheme

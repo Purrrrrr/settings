@@ -16,6 +16,7 @@ import XMonad.Actions.Commands
 import qualified XMonad.StackSet as StackSet
 import XMonad.Layout.Groups.Helpers
 
+import XMonad.Layout.Gaps
 import XMonad.Layout.MessageControl
 import XMonad.Layout.LayoutCombinators
 import XMonad.Layout.MultiToggle
@@ -71,7 +72,10 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) =
     --Misc
       ((modMask .|. altMask, xK_Down),  spawn "pactl set-sink-volume 0 -- -5%")
     , ((modMask .|. altMask, xK_Up),    spawn "pactl set-sink-volume 0 -- +5%")
-    , ((modMask, xK_b), sendMessage ToggleStruts)
+    , ((modMask, xK_b), do
+      sendMessage ToggleGaps
+      sendMessage ToggleStruts
+      )
     , ((modMask .|. shiftMask, xK_q     ), io exitSuccess) -- %! Quit xmonad
     , ((modMask              , xK_q     ), spawn "if type xmonad; then xmonad --recompile && xmonad --restart; else xmessage xmonad not in \\$PATH: \"$PATH\"; fi") -- %! Restart xmonad
 
