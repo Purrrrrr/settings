@@ -5,7 +5,7 @@ import XMonad.Util.WorkspaceCompare
 import XMonad.Hooks.DynamicLog 
 
 dzenWidth = 800
-dzenHeight = 32
+dzenHeight = 24
 dzenCmd = "dzen2 -bg black -fg white -fn :size=8 -w " ++ (show dzenWidth) 
   ++ " -h " ++ (show dzenHeight) ++ " -ta l"
 

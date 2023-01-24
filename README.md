@@ -20,6 +20,7 @@ Missing packages and programs I would like to automate:
 * KeePassXC browser integration
 * AWS cli
 * The XMonad session
+* Try out https://github.com/SBoudrias/Inquirer.js/
 
 Other stuff
 

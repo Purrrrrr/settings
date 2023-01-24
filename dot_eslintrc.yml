@@ -1,6 +1,7 @@
 env:
   browser: true
 extends: 'eslint:recommended'
+root: yes
 installedESLint: true
 parserOptions:
   sourceType: script

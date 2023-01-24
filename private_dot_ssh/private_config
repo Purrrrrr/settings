@@ -6,6 +6,10 @@ HostName purrrrrr.dy.fi
 Port 500
 User pi
 
+Host rsync.net
+HostName 2020.ch-s011.rsync.net
+User 11296
+
 Host github.com
 HostName github.com
 IdentityFile ~/.ssh/id_rsa.github

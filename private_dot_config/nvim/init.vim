@@ -12,6 +12,8 @@ Plug 'yuezk/vim-js'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'wavded/vim-stylus'
 Plug 'lepture/vim-jinja'
+" Surround
+Plug 'tpope/vim-surround'
 
 "Hilight word under cursor
 Plug 'dominikduda/vim_current_word'
