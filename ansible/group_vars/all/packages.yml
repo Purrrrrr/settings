@@ -8,16 +8,17 @@ required_apt_packages:
   - screen
   - traceroute
   - sl
+  - duf
   - whois
   - pwgen
   - sshfs
 installable_snap_packages:
   - name: Chromium browser
     pkg: chromium
-  - name: KeepPassXC
-    pkg: keepassxc
   - name: Neovim
     pkg: neovim
+  - name: Telegram
+    pkg: telegram_desktop
 installable_apt_packages:
   - name: Xclip for Neovim clipboard support
     pkg: xclip
