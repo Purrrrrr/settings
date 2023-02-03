@@ -2,7 +2,7 @@
 
 Quick start:
 
-`wget -qO - https://github.com/Purrrrrr/settings/raw/master/setup.sh | bash`
+`bash <(wget -qO - https://github.com/Purrrrrr/settings/raw/master/setup.sh)`
 
 This command installs the required SSH keys and clones the repository to ~/.settings
 It then proceeds in installing required libraries.
