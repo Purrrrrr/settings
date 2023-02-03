@@ -78,6 +78,3 @@ function askVaultPass {
 }
 
 main
-
-echo "Try running: ansible-playbook -i inventories/localhost --ask-vault-pass -K playbook.yml"
-
