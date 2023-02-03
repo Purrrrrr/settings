@@ -12,13 +12,15 @@ required_apt_packages:
   - whois
   - pwgen
   - sshfs
+  - python3-pip
 installable_snap_packages:
   - name: Chromium browser
     pkg: chromium
   - name: Neovim
-    pkg: neovim
+    pkg: nvim
+    classic: Yes
   - name: Telegram
-    pkg: telegram_desktop
+    pkg: telegram-desktop
 installable_apt_packages:
   - name: Xclip for Neovim clipboard support
     pkg: xclip

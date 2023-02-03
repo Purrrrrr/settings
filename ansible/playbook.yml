@@ -28,7 +28,7 @@
         name: "{{ required_apt_packages }}"
         state: present
     - name: Install snap packages chosen by user
-      command: snap install {{package.pkg}}
+      command: snap install {{package.pkg}} {{'--classic' if 'classic' in package else ''}}
       become: yes
       loop: "{{ installable_snap_packages }}"
       when: package.name in userChoices
