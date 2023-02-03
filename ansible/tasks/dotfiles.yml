@@ -2,9 +2,10 @@
   command: snap install chezmoi --classic
   become: yes
 - name: init chezmoi repository
-  command:
-    cmd: chezmoi init https://github.com/Purrrrrr/settings.git
-    creates: ~/.local/share/chezmoi
+  file:
+    dest: ~/.local/share/chezmoi
+    src: ~/settings/chezmoi
+    state: link
 - name: Create/insert dotfiles with chezmoi
   when: "'dotfiles-apply' in userChoices"
   block:
