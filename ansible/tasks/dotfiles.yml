@@ -10,11 +10,6 @@
   block:
   - name: Ensures chezmoi config dir exists
     file: path=~/.config/chezmoi state=directory
-  - name: Install chezmoi configuration
-    template:
-      src: files/chezmoi.toml.j2
-      dest: ~/.config/chezmoi/chezmoi.toml
-      mode: '0600'
   - name: apply chezmoi repository
     command: chezmoi apply
   - name: Install all (n)vim plugins
