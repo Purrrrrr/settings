@@ -16,6 +16,12 @@ required_apt_packages:
 installable_snap_packages:
   - name: Chromium browser
     pkg: chromium
+  - name: Intellij Idea Community
+    pkg: intellij-idea-community
+    classic: Yes
+  - name: Intellij Idea Ultimate
+    pkg: intellij-idea-ultimate
+    classic: Yes
   - name: Neovim
     pkg: nvim
     classic: Yes
@@ -34,11 +40,5 @@ installable_apt_packages:
       - network-manager-openconnect*
   - name: Gimp
     pkg: gimp
-  - name: Mosh
-    pkg: mosh
   - name: NginX
     pkg: nginx
-  - name: OpenJDK 14
-    pkg: openjdk-14-jdk
-  - name: Leiningen
-    pkg: leiningen

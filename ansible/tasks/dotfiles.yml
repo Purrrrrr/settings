@@ -13,9 +13,9 @@
     file: path=~/.config/chezmoi state=directory
   - name: apply chezmoi repository
     command: chezmoi apply
-  - name: Install all (n)vim plugins
-    command: nvim +'PlugInstall --sync' +qa
-    when: '"Neovim" in userChoices'
   - name: Install neovim python support
     command: pip install neovim
+    when: '"Neovim" in userChoices'
+  - name: Install all (n)vim plugins
+    command: nvim +'PlugInstall --sync' +qa
     when: '"Neovim" in userChoices'
