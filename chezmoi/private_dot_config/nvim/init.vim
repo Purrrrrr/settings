@@ -1,6 +1,8 @@
 call plug#begin(stdpath('data') . '/plugged')
 "For nice color scheme
 Plug 'rakr/vim-one'
+" Moving windows around
+Plug 'sindrets/winshift.nvim'
 "Searching tools
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'mileszs/ack.vim'
@@ -17,6 +19,9 @@ Plug 'tpope/vim-surround'
 
 "Hilight word under cursor
 Plug 'dominikduda/vim_current_word'
+
+"Hilight and remove trailing whitespace
+Plug 'ntpeters/vim-better-whitespace'
 
 "Git integration
 Plug 'tpope/vim-fugitive'
@@ -47,6 +52,9 @@ Plug 'Purrrrrr/vim-1loc-ultisnips', { 'branch' : 'main'}
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 call plug#end()
 
+let g:better_whitespace_enabled = 1
+let g:strip_whitespace_on_save = 1
+let g:strip_whitespace_confirm = 0
 
 let g:deoplete#enable_at_startup = 1
 " disable autocomplete
@@ -118,12 +126,6 @@ if (empty($TMUX))
   endif
 endif
 
-" Hilight extra whitespace at the end of nonempty lines
-highlight ExtraWhitespace ctermbg=red guibg=red
-autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
-"Hilight extra whitespace at line ends, but only if it isn't before the cursor
-match ExtraWhitespace /\s\+\%#\@<!$/
-
 " Hilight non breaking spaces
 highlight NonBreakingSpace ctermbg=red guibg=red
 autocmd ColorScheme * highlight NonBreakingSpace ctermbg=red guibg=red
@@ -178,7 +180,7 @@ local on_attach = function(client, bufnr)
 
   buf_set_keymap('n', '<C-e>', '<cmd>lua vim.lsp.stop_client(vim.lsp.get_active_clients())<CR>', opts)
   buf_set_keymap('n', '<F2>', '<cmd>LspRename<CR>', opts)
-  buf_set_keymap('n', '<Leader>e', '<cmd>LspDiagNext<CR>', opts)
+  buf_set_keymap('n', '<Leader>e', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
   buf_set_keymap('n', '<Leader>s', '<cmd>split<CR><cmd>LspDef<CR>', opts)
   buf_set_keymap('n', 'gd', '<cmd>LspDef<CR>', opts)
   buf_set_keymap('n', 'gr', '<cmd>LspRefs<CR>', opts)
@@ -226,6 +228,10 @@ nnoremap <C-PageUp> :prev<CR>
 nnoremap <C-PageDown> :next<CR>
 nnoremap <Leader>o :CtrlP<CR>
 nnoremap <Leader>w :w<CR>
+nnoremap <Leader>r :WinShift<CR>
+nnoremap <C-W>m :WinShift<CR>
+nnoremap <C-W>S :WinShift swap<CR>
+nnoremap <Leader>l :cexpr system('npx eslint  --format unix --fix ' . shellescape(expand('%')))<CR>
 nnoremap <Leader>d :call  <SID>ToggleBg()<CR>
 nnoremap <Leader>q :q<CR>
 nnoremap <Leader>a :Ack<CR>
