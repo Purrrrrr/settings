@@ -52,6 +52,10 @@ Plug 'Purrrrrr/vim-1loc-ultisnips', { 'branch' : 'main'}
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 call plug#end()
 
+let delimitMate_expand_space = 1
+let delimitMate_expand_cr = 2
+let delimitMate_jump_expansion = 1
+
 let g:better_whitespace_enabled = 1
 let g:strip_whitespace_on_save = 1
 let g:strip_whitespace_confirm = 0
