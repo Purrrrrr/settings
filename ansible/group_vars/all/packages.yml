@@ -32,6 +32,8 @@ installable_apt_packages:
     pkg: xclip
   - name: Ag
     pkg: silversearcher-ag
+  - name: Ripgrep
+    pkg: ripgrep
   - name: "SSH server"
     pkg: openssh-server
   - name: "Solita VPN prequisites"

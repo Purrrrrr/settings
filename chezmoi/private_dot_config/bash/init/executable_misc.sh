@@ -1,7 +1,7 @@
 # don't put duplicate lines in the history. See bash(1) for more options
 # ... or force ignoredups and ignorespace
 HISTCONTROL=ignoredups:ignorespace
-ANSIBLE_NOCOWS=1
+export ANSIBLE_NOCOWS=1
 
 # append to the history file, don't overwrite it
 shopt -s histappend
@@ -9,6 +9,8 @@ shopt -s histappend
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
 HISTFILESIZE=2000
+
+export RIPGREP_CONFIG_PATH=~/.config/ripgreprc
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
