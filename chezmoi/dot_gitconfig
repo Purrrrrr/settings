@@ -3,10 +3,21 @@
   whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
   autocrlf = input
   safecrlf = false
-	editor = nvim
+  editor = nvim
+  pager = delta
+[interactive]
+  diffFilter = delta --color-only
+[delta]
+  navigate = true
+  light = true
+  line-numbers = true
+[merge]
+  # conflictstyle = diff3
+[diff]
+  colorMoved = default
 [user]
-	name = Purr Consuegra
-	email = purr.consuegra@solita.fi
+  name = Purr Consuegra
+  email = purr.consuegra@solita.fi
 [push]
   default = current
 [color]
@@ -25,6 +36,6 @@
   changed = green
   untracked = cyan
 [credential]
-	helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
+  helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
 [alias]
-	pusheen = "!/home/david/.config/pusheen-push/push.sh git "
+  pusheen = "!/home/david/.config/pusheen-push/push.sh git "

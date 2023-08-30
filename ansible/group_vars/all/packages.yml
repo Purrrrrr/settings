@@ -1,5 +1,6 @@
 required_apt_packages:
   - git
+  - git-delta
   - net-tools
   - curl
   - wget
