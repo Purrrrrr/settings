@@ -4,6 +4,7 @@ required_apt_packages:
   - curl
   - wget
   - openssh-client
+  - moreutils
   - build-essential
   - screen
   - traceroute

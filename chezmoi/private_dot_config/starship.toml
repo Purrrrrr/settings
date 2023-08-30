@@ -1,11 +1,11 @@
 [git_status]
-ahead = "↑"
-behind = "↓"
-conflicted = " ✖ "
-diverged = " <->"
-untracked = " …"
-stashed = "⚑ "
-modified = " ●"
-staged = " +"
+#ahead = "↑"
+#behind = "↓"
+#conflicted = " ✖ "
+#diverged = " <->"
+#untracked = " …"
+#stashed = "⚑ "
+#modified = " ●"
+#staged = " +"
 [directory]
 truncation_length = 4
