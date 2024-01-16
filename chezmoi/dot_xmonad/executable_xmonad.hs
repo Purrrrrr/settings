@@ -38,9 +38,9 @@ main = do
   dzen_main <- spawnPipe dzenCmd
   xcompmgr <- spawn "xcompmgr"
   xmonad $ ewmh defaultConfig {
-        terminal = "x-terminal-emulator"
+        terminal = "mate-terminal"
       , borderWidth = 0
-      , modMask = mod1Mask
+      , modMask = mod4Mask
       , manageHook = manageDocks <+> composeAll [
           className =? "conky" --> tileConky
         , className =? "Gimp" --> (ask >>= doF . W.sink)

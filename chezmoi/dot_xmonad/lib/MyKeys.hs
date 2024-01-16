@@ -33,7 +33,8 @@ import Data.List (findIndex, isInfixOf, isPrefixOf)
 import Data.Char (toLower )
 import System.Exit
 
-altMask = mod5Mask
+altMask = mod1Mask
+altGrMask = mod5Mask
 changeInnerlayout l = sendMessage $ escape $ JumpToLayout l
 
 promptConfig = defaultXPConfig {
@@ -86,24 +87,24 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) =
     , ((modMask, xK_o), spawn dmenu_files)
 
     --wmiLike bindings
-    , ((modMask, xK_j), mirrorAction focusDown focusGroupDown)
-    , ((modMask, xK_k), mirrorAction focusUp focusGroupUp)
-    , ((modMask .|. shiftMask , xK_j), mirrorAction _swapDown _moveToGroupDown)
-    , ((modMask .|. shiftMask , xK_k), mirrorAction _swapUp _moveToGroupUp)
-    , ((modMask, xK_l), mirrorAction focusGroupDown focusDown)
-    , ((modMask, xK_h), mirrorAction focusGroupUp focusUp)
-    , ((modMask .|. shiftMask , xK_l), (mirrorAction _moveToGroupDown _swapDown))
-    , ((modMask .|. shiftMask , xK_h), (mirrorAction _moveToGroupUp _swapUp))
+    , ((altMask, xK_j), mirrorAction focusDown focusGroupDown)
+    , ((altMask, xK_k), mirrorAction focusUp focusGroupUp)
+    , ((altMask .|. shiftMask , xK_j), mirrorAction _swapDown _moveToGroupDown)
+    , ((altMask .|. shiftMask , xK_k), mirrorAction _swapUp _moveToGroupUp)
+    , ((altMask, xK_l), mirrorAction focusGroupDown focusDown)
+    , ((altMask, xK_h), mirrorAction focusGroupUp focusUp)
+    , ((altMask .|. shiftMask , xK_l), (mirrorAction _moveToGroupDown _swapDown))
+    , ((altMask .|. shiftMask , xK_h), (mirrorAction _moveToGroupUp _swapUp))
 
     --Grow and shrink bindings
-    , ((altMask, xK_l), mirrorAction growColumnDown growWindowDown)
-    , ((altMask, xK_h), mirrorAction shrinkColumnDown shrinkWindowDown)
-    , ((altMask, xK_j), mirrorAction growWindowDown growColumnDown)
-    , ((altMask, xK_k), mirrorAction shrinkWindowDown shrinkColumnDown)
-    , ((altMask .|. shiftMask, xK_l), mirrorAction shrinkColumnUp shrinkWindowUp)
-    , ((altMask .|. shiftMask, xK_h), mirrorAction growColumnUp growWindowUp)
-    , ((altMask .|. shiftMask, xK_j), mirrorAction shrinkWindowUp shrinkColumnUp)
-    , ((altMask .|. shiftMask, xK_k), mirrorAction growWindowUp growColumnUp)
+    , ((altGrMask, xK_l), mirrorAction growColumnDown growWindowDown)
+    , ((altGrMask, xK_h), mirrorAction shrinkColumnDown shrinkWindowDown)
+    , ((altGrMask, xK_j), mirrorAction growWindowDown growColumnDown)
+    , ((altGrMask, xK_k), mirrorAction shrinkWindowDown shrinkColumnDown)
+    , ((altGrMask .|. shiftMask, xK_l), mirrorAction shrinkColumnUp shrinkWindowUp)
+    , ((altGrMask .|. shiftMask, xK_h), mirrorAction growColumnUp growWindowUp)
+    , ((altGrMask .|. shiftMask, xK_j), mirrorAction shrinkWindowUp shrinkColumnUp)
+    , ((altGrMask .|. shiftMask, xK_k), mirrorAction growWindowUp growColumnUp)
 
     --Change layouts
     , ((modMask, xK_u), changeInnerlayout "Tabs")
