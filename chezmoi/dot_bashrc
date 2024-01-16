@@ -2,8 +2,8 @@
 export BASH_CONFIG=$HOME/.config/bash
 source $BASH_CONFIG/autorun.sh
 
-export EDITOR=vim
-export VISUAL=vim
+export EDITOR=nvim
+export VISUAL=nvim
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
