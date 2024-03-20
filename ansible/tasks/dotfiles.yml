@@ -16,6 +16,10 @@
   - name: Install neovim python support
     command: pip install neovim
     when: '"Neovim" in userChoices'
-  - name: Install all (n)vim plugins
-    command: nvim +'PlugInstall --sync' +qa
+  - name: Install NVChad 
+    git:
+      repo: git@github.com:Purrrrrr/nvchad-config.git
+      dest: ~/.config/nvim
+      clone: yes
+      update: ye
     when: '"Neovim" in userChoices'
