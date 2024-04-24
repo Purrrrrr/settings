@@ -16,6 +16,13 @@
   - name: Install neovim python support
     command: pip install neovim
     when: '"Neovim" in userChoices'
+  - name: Install jEnv
+    git:
+      repo: https://github.com/jenv/jenv.git
+      dest: ~/.jenv
+      clone: yes
+      update: ye
+    when: '"jenv" in userChoices'
   - name: Install NVChad 
     git:
       repo: git@github.com:Purrrrrr/nvchad-config.git
