@@ -39,3 +39,5 @@
   helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
 [alias]
   pusheen = "!/home/david/.config/pusheen-push/push.sh git "
+[rebase]
+  updateRefs = true
