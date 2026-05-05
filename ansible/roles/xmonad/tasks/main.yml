@@ -4,7 +4,7 @@
     state: present
     name:
     - at
-    - conky
+    - conky-all
     - dzen2
     - xmonad
     - suckless-tools

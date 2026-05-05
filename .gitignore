@@ -1,3 +1,4 @@
 *.pyc
 *.retry
+ansible/vars.json
 vault_pass

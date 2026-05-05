@@ -1,63 +1,49 @@
 ---
-- hosts: all
-  name: Test playbooks
+- hosts: localhost
+  connection: local
+  become_exe: sudo.ws
   vars:
-    installable_configurations:
-      - name: dotfiles
-        description: Dotfiles via chezmoi
-      - name: dotfiles-apply
-        description: Apply chezmoi dotfiles automatically
-      - name: starship
-        description: Starship shell prompt
-      - name: xmonad
-        description: XMonad window manager and config
-      - name: cypress
-        description: Dependencies for Cypress testing framework
-      - name: nvm
-        description: NVM - node version manager
-      - name: jenv
-        description: jEnv - Java version manager
+    ansible_python_interpreter: /usr/bin/python3
+  vars_files:
+    - vars.json
   tasks:
-    - name: Choose packages to install
-      select_options:
-        msg: Choose packages to install
-        variable: userChoices
-        options: "{{installable_configurations + (installable_apt_packages | map(attribute = 'name') | list + installable_snap_packages | map(attribute = 'name') | list) | sort}}"
-      when: userChoices is undefined
     - name: Install required tool packages
-      become: yes
       apt:
-        name: "{{ required_apt_packages }}"
         state: present
-    - name: Install snap packages chosen by user
+        name:
+          - git
+          - git-delta
+          - net-tools
+          - curl
+          - wget
+          - openssh-client
+          - moreutils
+          - build-essential
+          - screen
+          - traceroute
+          - sl
+          - ripgrep
+          - duf
+          - whois
+          - pwgen
+          # XClip for neovim clipboard support
+          - xclip
+    - name: Install user specified apt packages
+      apt:
+        state: present
+        name: "{{ userAptPackages }}"
+    - name: Install user specified snap packages
       command: snap install {{package.pkg}} {{'--classic' if 'classic' in package else ''}}
       become: yes
-      loop: "{{ installable_snap_packages }}"
-      when: package.name in userChoices
+      loop: "{{ userSnapPackages }}"
       loop_control:
         loop_var: package
-    - name: Install apt packages chosen by user
-      include_tasks: tasks/install_package.yml
-      loop: "{{ installable_apt_packages }}"
-      when: package.name in userChoices
-      loop_control:
-        loop_var: package
-    - name: Run chosen configurations
-      block:
-      - include_tasks: tasks/xmonad.yml
-        when: "'xmonad' in userChoices"
-      - include_tasks: tasks/cypress-dependencies.yml
-        when: "'cypress' in userChoices"
-      - include_tasks: tasks/dotfiles.yml
-        when: "'dotfiles' in userChoices"
-      - name: Install starship
-        include_role:
-          name: andrewrothstein.starship
-        when: "'starship' in userChoices"
-      - name: Install NVM
-        when: "'nvm' in userChoices"
-        include_role:
-          name: markosamuli.nvm
-        vars:
-          nvm_shell_init: no
 
+  roles:
+    - { role: xmonad, when: userRoles.xmonad }
+    - { role: dotfiles , when: userRoles.dotfiles }
+    - { role: andrewrothstein.starship, when: userRoles.starship }
+    - role: markosamuli.nvm
+      when: userRoles.nvm
+      vars:
+        nvm_shell_init: no

@@ -7,13 +7,15 @@ Quick start:
 This command installs the required SSH keys and clones the repository to ~/.settings
 It then proceeds in installing required libraries.
 
-You can then run:
-`ansible-playbook -i inventories/localhost --vault-password-file vault_pass -K playbook.yml`
+Then you must run
+
+`python3 ./setup_vars.py`
 
 The command will ask to choose what configurations and packages to install.
+You can then run:
 
-You can also preselect some options to install without prompts
-`ansible-playbook -i inventories/localhost --extra-vars '{"userChoices": ["xmonad"]}' --vault-password-file vault_pass -K playbook.yml`
+`ansible-playbook --vault-password-file vault_pass -K playbook.yml`
+
 
 ## TODO
 
@@ -23,7 +25,7 @@ Missing packages and programs I would like to automate:
 * IntelliJ Idea (what about licenses?)
 * AWS cli
 * The XMonad session
-* Try out https://github.com/SBoudrias/Inquirer.js/
+* Some good coding font
 
 Other stuff
 
