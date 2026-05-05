@@ -23,7 +23,7 @@ function main {
 
   echo ""
   echo "Trying to clone settings repository"
-  git clone git@github.com:Purrrrrr/settings.git $SETTINGS_DIR
+  GIT_SSH_COMMAND="ssh -i ~/.ssh/$KEYFILE" git clone git@github.com:Purrrrrr/settings.git $SETTINGS_DIR
 
   echo ""
   echo "Installing ansible dependencies"
