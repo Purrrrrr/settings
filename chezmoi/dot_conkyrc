@@ -34,6 +34,8 @@ TEXT
 ${time %H:%M %e.%m.%Y} \
  | ${cpugraph cpu1 10,60 ff0000 white} ${cpu cpu1}% \
  | ${cpugraph cpu2 10,60 ff0000 white} ${cpu cpu2}%\
+ | ${cpugraph cpu3 10,60 ff0000 white} ${cpu cpu1}% \
+ | ${cpugraph cpu4 10,60 ff0000 white} ${cpu cpu2}%\
  | ${memeasyfree}/${memmax} \
  | ✎ ${diskio_write} ✉ ${diskio_read} \
 ${if_existing /proc/net/route enp0s3}\

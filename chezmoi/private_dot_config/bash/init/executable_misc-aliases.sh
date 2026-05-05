@@ -20,3 +20,4 @@ if hash nvim 2>/dev/null; then
   alias vim=nvim
 fi
 
+alias clj-repl='clj -M:dev:nREPL/interactive'

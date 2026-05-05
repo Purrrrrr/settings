@@ -8,7 +8,7 @@ shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
-HISTFILESIZE=2000
+HISTFILESIZE=100000
 
 export RIPGREP_CONFIG_PATH=~/.config/ripgreprc
 

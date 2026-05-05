@@ -84,7 +84,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) =
     , ((modMask, xK_Return), spawn $ XMonad.terminal conf)
     , ((modMask, xK_x), spawn "xeyes")
     , ((modMask, xK_p), spawn dmenu_exec)
-    , ((modMask, xK_o), spawn dmenu_files)
+    -- , ((modMask, xK_o), spawn dmenu_files)
 
     --wmiLike bindings
     , ((altMask, xK_j), mirrorAction focusDown focusGroupDown)
@@ -135,6 +135,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) =
 
     , ((modMask, xK_t), updateDefaultInGroup $ workspacePrompt autoPromptConfig (windows.StackSet.view))
     , ((modMask .|. shiftMask, xK_t), workspacePrompt autoPromptConfig (windows.StackSet.shift))
+    , ((modMask .|. shiftMask .|. controlMask, xK_t), workspacePrompt autoPromptConfig (windows.copy))
     --
     --Manage screens
     , ((modMask .|. controlMask,  xK_j), nextScreen)

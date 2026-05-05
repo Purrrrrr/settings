@@ -20,6 +20,7 @@
   email = purr.consuegra@solita.fi
 [push]
   default = current
+  autoSetupRemote = true
 [color]
   ui = true
 [color "branch"]
@@ -36,8 +37,12 @@
   changed = green
   untracked = cyan
 [credential]
-  helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
+  helper = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
 [alias]
   pusheen = "!/home/david/.config/pusheen-push/push.sh git "
 [rebase]
   updateRefs = true
+[fetch]
+  prune = true
+[init]
+  defaultBranch = main

@@ -3,7 +3,7 @@ ServerAliveInterval 300
 
 Host pi
 HostName purrrrrr.dy.fi
-Port 500
+#Port 500
 User pi
 
 Host rsync.net
