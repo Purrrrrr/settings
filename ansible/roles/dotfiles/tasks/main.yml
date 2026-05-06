@@ -1,6 +1,15 @@
 - name: Install chezmoi
   command: snap install chezmoi --classic
   become: yes
+- name: Add chezmoi config file
+  copy:
+    dest: ~/.config/chezmoi/chezmoi.toml
+    src: chezmoi.toml
+- name: Add chezmoi key file
+  copy:
+    dest: ~/.config/chezmoi/key.txt
+    src: key.txt
+    mode: '0600'
 - name: init chezmoi repository
   file:
     dest: ~/.local/share/chezmoi

@@ -2,6 +2,7 @@
 alias g='git'
 alias gd='git diff'
 alias gca='git commit --amend'
+alias gamend='git commit --amend'
 alias ga='git add'
 alias s='git status -s'
 alias lg="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
