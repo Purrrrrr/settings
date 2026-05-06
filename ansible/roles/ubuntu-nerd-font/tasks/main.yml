@@ -1,0 +1,10 @@
+---
+- name: Install Ubuntu nerd font
+  include_role:
+    name: ctorgalson.nerdfonts
+  vars:
+    nf_user: "{{ ansible_facts[\"user_id\"] }}"
+    nf_group: "{{ nf_user }}"
+    nf_single_fonts:
+     - "UbuntuMono/Regular/UbuntuMonoNerdFontMono-Regular.ttf"
+     - "UbuntuMono/Regular/UbuntuMonoNerdFont-Regular.ttf"

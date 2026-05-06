@@ -4,10 +4,10 @@ import json
 
 snapPackages = [
  { "pkg": "chromium", "classic": True },
- { "pkg": "intellij-idea-community", "classic": True },
- { "pkg": "intellij-idea-ultimate", "classic": True },
+ { "pkg": "intellij-idea", "classic": True },
  { "pkg": "nvim", "classic": True },
  { "pkg": "telegramp-desktop", "classic": False },
+ { "pkg": "code", "classic": True },
 ]
 
 chosenSnapPackages = checkbox(
@@ -19,6 +19,9 @@ aptPackages = [
   "openssh-server",
   "gimp",
   "nginx",
+  "iotop",
+  "docker.io",
+  "pandoc",
 ]
 
 chosenAptPackages = checkbox(
@@ -29,9 +32,12 @@ chosenAptPackages = checkbox(
 roles = dict(
   xmonad = "XMonad and tools for it",
   nvm = "Node version manager",
+  copilotCLI = "Install copilot cli using node",
   starship = "Starship shell",
   dotfiles = "Install and setup chezmoi",
   applyDotfiles = "Apply chezmoi dotfiles",
+  aisleriotBonded = "Bonded aisleriot cards deck",
+  ubuntuNerdFont = "Ubuntu Nerd Font for neovim and other CLI tools",
 )
 
 chosenRoles = checkbox(

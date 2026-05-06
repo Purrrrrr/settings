@@ -29,6 +29,7 @@
           # XClip for neovim clipboard support
           - xclip
     - name: Install user specified apt packages
+      become: yes
       apt:
         state: present
         name: "{{ userAptPackages }}"
@@ -38,12 +39,27 @@
       loop: "{{ userSnapPackages }}"
       loop_control:
         loop_var: package
+    - name: Install copilot CLI
+      shell: |
+        export NVM_DIR="$HOME/.nvm"
+        . "$NVM_DIR/nvm.sh"
+        npm install -g @github/copilot
+      when: userRoles.copilotCLI
+    - name: Install bonded cards deck
+      become: yes
+      copy:
+        src: bonded.svgz
+        dest: /usr/share/aisleriot/cards/bonded.svgz
+      when: userRoles.aisleriotBonded
 
   roles:
     - { role: xmonad, when: userRoles.xmonad }
     - { role: dotfiles , when: userRoles.dotfiles }
     - { role: andrewrothstein.starship, when: userRoles.starship }
+    - { role: ubuntu-nerd-font, when: userRoles.ubuntuNerdFont }
     - role: markosamuli.nvm
       when: userRoles.nvm
       vars:
         nvm_shell_init: no
+    - role: den_is.tools.zoxide
+      become: yes
