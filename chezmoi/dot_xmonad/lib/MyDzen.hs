@@ -19,7 +19,7 @@ workspaceWheelable = wheelable "xdotool key super+Up" "xdotool key super+Down"
 clickToSwitchWorksplace n = clickable ("$HOME/.xmonad/bin/switch_workplace "++n) $ doublepad n
 
 mydzenPP :: PP
-mydzenPP = defaultPP { 
+mydzenPP = def { 
     ppCurrent  = dzenColor "black" "white" . workspaceWheelable . doublepad
   , ppVisible  = dzenColor "gray" "black" . workspaceWheelable .
                  clickToSwitchWorksplace

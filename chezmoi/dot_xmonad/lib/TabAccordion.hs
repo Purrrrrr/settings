@@ -8,7 +8,7 @@ import XMonad
 import XMonad.Layout.Decoration
 import XMonad.Layout.LayoutModifier
 import XMonad.Layout.SimpleDecoration
-import XMonad.Layout.Named
+import XMonad.Layout.Renamed
 import qualified XMonad.StackSet as Stack
 
 --tabAccordion :: Shrinker s => s -> Theme

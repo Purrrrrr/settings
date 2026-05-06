@@ -232,7 +232,7 @@ shrinkUp = GrowBy Up (-growAmount)
 
 -- * LayoutClass instance
 
-instance (EQF f a, Show a, Read a, Show (f a), Read (f a))
+instance (Typeable f, EQF f a, Show a, Read a, Show (f a), Read (f a))
     => LayoutClass (ZoomRow f) a where
     description (ZC _ Nothing) = "ZoomRow"
     description (ZC _ (Just s)) = "ZoomRow" ++ if full $ W.focus s

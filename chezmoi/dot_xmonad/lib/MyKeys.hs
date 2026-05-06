@@ -37,7 +37,7 @@ altMask = mod1Mask
 altGrMask = mod5Mask
 changeInnerlayout l = sendMessage $ escape $ JumpToLayout l
 
-promptConfig = defaultXPConfig {
+promptConfig = def {
   position = Top,
   searchPredicate = (\s s2 -> isInfixOf (map toLower s) (map toLower s2))
 }
@@ -67,7 +67,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) =
       _swapUp = do { swapUp; refresh; }
       _moveToGroupDown = moveToGroupDown False
       _moveToGroupUp = moveToGroupUp False
-      rotView dir = do t <- findWorkspace getSortByTag dir NonEmptyWS 1
+      rotView dir = do t <- findWorkspace getSortByTag dir (Not emptyWS) 1
                        updateDefaultInGroup $ windows . StackSet.view $ t
   in M.fromList $ [
     --Misc
