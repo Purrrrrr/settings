@@ -1,0 +1,36 @@
+Config { font            = ":size=8"
+       , bgColor         = "black"
+       , fgColor         = "white"
+       , position        = Top
+       , lowerOnStart    = True
+       , allDesktops     = True
+       , overrideRedirect = True
+       , persistent      = True
+
+       , commands =
+           [ Run UnsafeStdinReader
+
+           , Run Date "%H:%M %e.%m.%Y" "date" 10
+
+           , Run MultiCpu
+               [ "-t", "<total0>% <total1>% <total2>% <total3>%"
+               , "-L", "3", "-H", "70"
+               , "--low",    "white"
+               , "--normal", "white"
+               , "--high",   "red"
+               ] 10
+
+           , Run Memory
+               [ "-t", "<free>/<total>" ] 10
+
+           , Run DiskIO
+               [("sda", "✎<write> ✉<read>")] [] 10
+
+           , Run Network "enp0s3"
+               [ "-t", "▼<rx> ▲<tx>" ] 10
+           ]
+
+       , sepChar  = "%"
+       , alignSep = "}{"
+       , template = "%UnsafeStdinReader% }{ %date% | %multicpu% | %memory% | %diskio% | %enp0s3%"
+       }

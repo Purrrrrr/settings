@@ -1,9 +1,8 @@
 import XMonad hiding ((|||))
 import XMonad.Util.Run
-import XMonad.Util.SpawnOnce
 import XMonad.Util.Themes
 import XMonad.Hooks.ManageDocks
-import XMonad.Hooks.DynamicLog --Used for dzen
+import XMonad.Hooks.DynamicLog --Used for xmobar
 import XMonad.Hooks.SetWMName
 -- import XMonad.Hooks.ICCCMFocus
 import XMonad.Hooks.EwmhDesktops
@@ -22,9 +21,8 @@ import XMonad.Layout.MultiToggle.Instances
 import Data.List (isInfixOf)
 import qualified Data.Map (union)
 
-import MyDzen
+import MyXmobar
 import MyKeys
-import TileConky
 import ZoomRowPlus
 import ZoomRowPlus.Group
 import TabAccordion
@@ -34,24 +32,22 @@ import SpawnAndRead
 customTopGap = 0
 
 main = do
-  dzen_main <- spawnPipe dzenCmd
+  xmobar_main <- spawnPipe xmobarCmd
   xcompmgr <- spawn "xcompmgr"
   xmonad $ ewmh . docks $ def {
         terminal = "mate-terminal"
       , borderWidth = 0
       , modMask = mod4Mask
       , manageHook = manageDocks <+> composeAll [
-          className =? "conky" --> tileConky
-        , className =? "Gimp" --> (ask >>= doF . W.sink)
+          className =? "Gimp" --> (ask >>= doF . W.sink)
         , className =? "Gimp" --> doShift "Gimp"
         , className =? "Xfce4-notifyd" --> doF W.focusDown
         , title     ~? "Difference between " --> (ask >>= doF . W.sink)
         ]<+> manageHook def
-      , handleEventHook = tileConkyHook
-      , logHook = fadeInactiveLogHook 0.9 >> dynamicLogWithPP mydzenPP { ppOutput = hPutStrLn dzen_main }
+      , handleEventHook = mempty
+      , logHook = fadeInactiveLogHook 0.9 >> dynamicLogWithPP myxmobarPP { ppOutput = hPutStrLn xmobar_main }
       , startupHook = do
           setWMName "LG3D"
-          spawnOnce "conky"
       , layoutHook = myLayoutHook
       , keys = myKeys
       , workspaces = concatMap (\x -> [show x, show x ++ "B"]) [1..9] ++ ["Temp"]
