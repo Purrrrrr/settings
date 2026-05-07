@@ -5,6 +5,7 @@
   vars:
     ansible_python_interpreter: /usr/bin/python3
   vars_files:
+    - vars/packages.yml
     - vars.json
   tasks:
     - name: Install required tool packages
@@ -32,34 +33,33 @@
       become: yes
       apt:
         state: present
-        name: "{{ userAptPackages }}"
+        name: "{{ chosen.aptPackages }}"
     - name: Install user specified snap packages
       command: snap install {{package.pkg}} {{'--classic' if 'classic' in package else ''}}
       become: yes
-      loop: "{{ userSnapPackages }}"
+      loop: "{{ snapPackages | selectattr('pkg', 'in', chosen.snapPackages) | list }}"
       loop_control:
         loop_var: package
-    - name: Install copilot CLI
-      shell: |
-        export NVM_DIR="$HOME/.nvm"
-        . "$NVM_DIR/nvm.sh"
-        npm install -g @github/copilot
-      when: userRoles.copilotCLI
     - name: Install bonded cards deck
       become: yes
       copy:
         src: bonded.svgz
         dest: /usr/share/aisleriot/cards/bonded.svgz
-      when: userRoles.aisleriotBonded
+      when: chosen.roles.aisleriotBonded
+    - name: Install jEnv
+      git:
+        repo: https://github.com/jenv/jenv.git
+        dest: ~/.jenv
+        clone: yes
+        update: yes
+      when: chosen.roles.jEnv
 
   roles:
-    - { role: xmonad, when: userRoles.xmonad }
-    - { role: dotfiles , when: userRoles.dotfiles }
-    - { role: andrewrothstein.starship, when: userRoles.starship }
-    - { role: ubuntu-nerd-font, when: userRoles.ubuntuNerdFont }
-    - role: markosamuli.nvm
-      when: userRoles.nvm
-      vars:
-        nvm_shell_init: no
+    - { role: xmonad, when: chosen.roles.xmonad }
+    - { role: dotfiles , when: chosen.roles.dotfiles }
+    - { role: docker , when: chosen.roles.docker, become: yes }
+    - { role: nvm , when: chosen.roles.nvm }
+    - { role: andrewrothstein.starship, when: chosen.roles.starship }
+    - { role: ubuntu-nerd-font, when: chosen.roles.ubuntuNerdFont }
     - role: den_is.tools.zoxide
       become: yes

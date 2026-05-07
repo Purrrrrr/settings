@@ -1,0 +1,12 @@
+- name: Install nvm
+  include_role:
+    name: markosamuli.nvm
+  when: chosen.roles.nvm
+  vars:
+    nvm_shell_init: no
+- name: Install copilot CLI
+  shell: |
+    export NVM_DIR="$HOME/.nvm"
+    . "$NVM_DIR/nvm.sh"
+    npm install -g @github/copilot
+  when: chosen.roles.copilotCLI

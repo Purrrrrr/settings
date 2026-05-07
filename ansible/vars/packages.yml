@@ -1,0 +1,29 @@
+snapPackages:
+  - pkg: chromium
+    name: Chromium Browser
+    classic: yes
+  - pkg: intellij-idea
+    name: Intellij Idea
+    classic: yes
+  - pkg: nvim
+    name: Neovim
+    classic: yes
+  - pkg: telegramp-desktop
+    name: Telegramp Desktop
+    classic: no
+  - pkg: code
+    name: VSCode
+    classic: yes
+aptPackages:
+  - pkg: openssh-server
+    name: SSH Server
+  - pkg: gimp
+    name: Gimp
+  - pkg: nginx
+    name: nginx
+  - pkg: iotop
+    name: iotop
+  - pkg: pandoc
+    name: Pandoc
+  - pkg: qdirstat
+    name: QDirStat

@@ -41,8 +41,7 @@ function main {
   echo "-----"
   echo ""
   echo "Try running:"
-  echo "cd $SETTINGS_DIR/ansible"
-  echo "ansible-playbook -i inventories/localhost --vault-password-file vault_pass -K playbook.yml"
+  echo "$SETTINGS_DIR/ansible/run-ansible.sh"
 }
 
 function downloadKeys {

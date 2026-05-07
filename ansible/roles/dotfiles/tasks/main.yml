@@ -16,7 +16,7 @@
     src: ~/settings/chezmoi
     state: link
 - name: Create/insert dotfiles with chezmoi
-  when: userRoles.applyDotfiles
+  when: chosen.roles.applyDotfiles
   block:
   - name: Ensures chezmoi config dir exists
     file: path=~/.config/chezmoi state=directory

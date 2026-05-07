@@ -7,15 +7,11 @@ Quick start:
 This command installs the required SSH keys and clones the repository to ~/.settings
 It then proceeds in installing required libraries.
 
-Then you must run
+Then run
 
-`python3 ./setup_vars.py`
+`ansible/run-ansible.sh`
 
-The command will ask to choose what configurations and packages to install.
-You can then run:
-
-`ansible-playbook --vault-password-file vault_pass -K playbook.yml`
-
+The command will ask to choose what configurations and packages to install. And then proceed to install them
 
 ## TODO
 
