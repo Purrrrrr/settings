@@ -11,6 +11,7 @@ roles = dict(
   jEnv = "jEnv Java version manager",
   copilotCLI = "Install copilot cli using node",
   starship = "Starship shell",
+  firefox-from-apt= "Install Firefox and Thunderbird from apt",
   dotfiles = "Install and setup chezmoi",
   applyDotfiles = "Apply chezmoi dotfiles",
   aisleriotBonded = "Bonded aisleriot cards deck",

@@ -57,6 +57,7 @@
   roles:
     - { role: xmonad, when: chosen.roles.xmonad }
     - { role: dotfiles , when: chosen.roles.dotfiles }
+    - { role: firefox-from-apt , when: chosen.roles.firefox-from-apt }
     - { role: docker , when: chosen.roles.docker, become: yes }
     - { role: nvm , when: chosen.roles.nvm }
     - { role: andrewrothstein.starship, when: chosen.roles.starship }
