@@ -1,0 +1,9 @@
+#!/bin/bash
+SCRIPTS_DIR="$HOME/.xmonad/scripts"
+DMENU_COLORS="-fn '-*-fixed-medium-r-*-*-18-*-*-*-*-*-utf-8' -nb white -nf black -sf white -sb red"
+
+selection=$(ls -1 "$SCRIPTS_DIR" | dmenu -i $DMENU_COLORS -p "system:")
+
+if [[ -n "$selection" ]]; then
+    "$SCRIPTS_DIR/$selection"
+fi
