@@ -21,7 +21,7 @@ import XMonad.Layout.MultiToggle.Instances
 import Data.List (isInfixOf)
 import qualified Data.Map (union)
 
-import MyXmobar
+-- import MyXmobar
 import MyKeys
 import ZoomRowPlus
 import ZoomRowPlus.Group
@@ -32,7 +32,7 @@ import SpawnAndRead
 customTopGap = 0
 
 main = do
-  xmobar_main <- spawnPipe xmobarCmd
+  xmobar_main <- spawnPipe "polybar -r"
   xcompmgr <- spawn "xcompmgr"
   xmonad $ ewmh . docks $ def {
         terminal = "mate-terminal"
@@ -45,7 +45,7 @@ main = do
         , title     ~? "Difference between " --> (ask >>= doF . W.sink)
         ]<+> manageHook def
       , handleEventHook = mempty
-      , logHook = fadeInactiveLogHook 0.9 >> dynamicLogWithPP myxmobarPP { ppOutput = hPutStrLn xmobar_main }
+      , logHook = fadeInactiveLogHook 0.9 -- >> dynamicLogWithPP myxmobarPP { ppOutput = hPutStrLn xmobar_main }
       , startupHook = do
           setWMName "LG3D"
       , layoutHook = myLayoutHook
