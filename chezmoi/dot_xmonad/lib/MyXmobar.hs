@@ -4,7 +4,7 @@ import XMonad.Util.WorkspaceCompare
 import XMonad.Hooks.DynamicLog
 
 xmobarHeight :: Int
-xmobarHeight = 24
+xmobarHeight = 34
 
 xmobarCmd :: String
 xmobarCmd = "xmobar ~/.xmobarrc"
@@ -21,7 +21,7 @@ xmobarBtn n cmd = wrap open "</action>"
 clickToSwitchWorkspace :: String -> String
 clickToSwitchWorkspace n =
     xmobarBtn 1 ("$HOME/.xmonad/bin/switch_workplace " ++ n)
-    $ wrap "  " "  " n
+    $ wrap " " " " n
 
 myxmobarPP :: PP
 myxmobarPP = def

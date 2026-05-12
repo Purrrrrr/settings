@@ -10,6 +10,8 @@ shopt -s histappend
 HISTSIZE=1000
 HISTFILESIZE=100000
 
+export SSH_AUTH_SOCK=/run/user/1000/gcr/ssh
+
 export RIPGREP_CONFIG_PATH=~/.config/ripgreprc
 
 # check the window size after each command and, if necessary,

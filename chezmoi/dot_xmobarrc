@@ -1,7 +1,7 @@
-Config { font            = ":size=8"
+Config { font            = "Ubuntu"
        , bgColor         = "black"
        , fgColor         = "white"
-       , position        = Top
+       , position        = TopH 20
        , lowerOnStart    = True
        , allDesktops     = True
        , overrideRedirect = True
@@ -21,7 +21,7 @@ Config { font            = ":size=8"
                ] 10
 
            , Run Memory
-               [ "-t", "<free>/<total>" ] 10
+               [ "-t", "<free> GB/<total> GB", "-d", "1", "--", "--scale", "1024" ] 10
 
            , Run DiskIO
                [("sda", "✎<write> ✉<read>")] [] 10
@@ -32,5 +32,5 @@ Config { font            = ":size=8"
 
        , sepChar  = "%"
        , alignSep = "}{"
-       , template = "%UnsafeStdinReader% }{ %date% | %multicpu% | %memory% | %diskio% | %enp0s3%"
+       , template = "%UnsafeStdinReader% }{ %date% | %multicpu% | %memory% | %diskio% | %enp0s3%  "
        }
