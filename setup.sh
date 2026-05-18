@@ -46,6 +46,7 @@ function main {
 }
 
 function downloadKeys {
+  mkdir -p ~/.ssh
   if [[ ! -f  ~/.ssh/$KEYFILE.pub ]]; then
     wget -nc -O ~/.ssh/$KEYFILE.pub https://github.com/Purrrrrr/settings/raw/master/ssh/$KEYFILE.pub
   fi
