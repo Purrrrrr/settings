@@ -5,6 +5,7 @@ SETTINGS_DIR=~/settings
 function main {
   # Install first prequisites
   echo "Installing git, questionary and ansible"
+  sudo apt update
   sudo apt-get -qqy install ansible git python3-questionary
 
   # Download and unencrypt GitHub SSH key
